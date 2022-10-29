@@ -32,15 +32,16 @@ return [
 
         'pusher' => [
             'driver' => 'pusher',
+            'app_id' => env('PUSHER_APP_ID'),
             'key' => env('PUSHER_APP_KEY'),
             'secret' => env('PUSHER_APP_SECRET'),
-            'app_id' => env('PUSHER_APP_ID'),
             'options' => [
+                'host' => env('PUSHER_HOST'),
+                'port' => env('LARAVEL_WEBSOCKETS_PORT', 6001),
+                'scheme' => env('PUSHER_SCHEME'),
+                'encrypted' => env('PUSHER_ENCRYPTED', true),
                 'cluster' => env('PUSHER_APP_CLUSTER'),
-                'encrypted' => true,
-                'host' => '127.0.0.1',
-                'port' => 6001,
-                'scheme' => 'http'
+                'useTLS' => env('PUSHER_SCHEME') === 'https',
             ],
         ],
 
