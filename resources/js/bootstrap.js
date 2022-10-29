@@ -28,9 +28,9 @@ window.Echo = new Echo({
     key: import.meta.env.VITE_PUSHER_APP_KEY,
     wsHost: window.location.hostname,
     wsPort: import.meta.env.VITE_PUSHER_PORT,
-    // wssPort: import.meta.env.VITE_PUSHER_PORT,
+    wssPort: import.meta.env.VITE_PUSHER_PORT,
     cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
     forceTLS: import.meta.env.VITE_PUSHER_SCHEME === "https",
-    // disableStats: true,
+    disableStats: true,
     // enabledTransports: ['ws', 'wss'],
 });

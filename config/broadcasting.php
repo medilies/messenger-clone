@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'default' => env('BROADCAST_DRIVER', 'null'),
+    'default' => env('BROADCAST_DRIVER', 'pusher'),
 
     /*
     |--------------------------------------------------------------------------
@@ -38,10 +38,13 @@ return [
             'options' => [
                 'host' => env('PUSHER_HOST'),
                 'port' => env('LARAVEL_WEBSOCKETS_PORT', 6001),
-                'scheme' => env('PUSHER_SCHEME'),
-                'encrypted' => env('PUSHER_ENCRYPTED', true),
+                'scheme' => env('PUSHER_SCHEME', 'https'),
+                'encrypted' => env('PUSHER_ENCRYPTED', false),
                 'cluster' => env('PUSHER_APP_CLUSTER'),
                 'useTLS' => env('PUSHER_SCHEME') === 'https',
+            ],
+            'client_options' => [
+                // Guzzle client options: https://docs.guzzlephp.org/en/stable/request-options.html
             ],
         ],
 
