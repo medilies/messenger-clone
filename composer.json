@@ -11,7 +11,7 @@
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
-        "pusher/pusher-php-server": "^7.2"
+        "pusher/pusher-php-server": "7.0.2"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
@@ -57,10 +57,7 @@
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": true,
-        "allow-plugins": {
-            "pestphp/pest-plugin": true
-        }
+        "sort-packages": true
     },
     "minimum-stability": "dev",
     "prefer-stable": true
