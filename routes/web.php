@@ -1,5 +1,7 @@
 <?php
 
+use App\Events\NewMessage;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,4 +17,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::post('/messages', function (Request $request) {
+    broadcast(new NewMessage($request->message));
+
+    return response($request->all());
 });
