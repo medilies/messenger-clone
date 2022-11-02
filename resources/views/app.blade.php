@@ -7,7 +7,7 @@
 
     <title>Laravel</title>
 
-    @vite(['resources/js/app.js'])
+    @vite(['resources/js/main.js'])
 
 </head>
 
