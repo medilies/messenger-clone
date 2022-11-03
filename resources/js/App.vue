@@ -1,19 +1,17 @@
 <template>
     <div class="container mx-auto border">
-        <h1 class="text-center"> Hello vue </h1>
+        <h1 class="text-center"> Realtime chat </h1>
 
-        <MessagesQueu :messages="messages" />
+        <Chat :messages="messages" />
     </div>
 </template>
 
 <script>
-import MessagesQueu from "./Components/MessagesQueu.vue";
+import Chat from "./Components/Chat.vue";
 
 export default {
-    name: 'App',
-
     components: {
-        MessagesQueu,
+        Chat,
     },
 
     data() {
@@ -33,6 +31,6 @@ export default {
             'foo',
             'bar'
         ];
-    }
+    },
 }
 </script>
