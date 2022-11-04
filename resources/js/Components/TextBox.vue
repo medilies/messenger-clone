@@ -13,7 +13,7 @@ export default {
     },
 
     methods: {
-        onSubmit: function () {
+        onSubmit() {
             if (!this.newMessage) {
                 return;
             }
