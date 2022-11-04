@@ -14,12 +14,27 @@
 import TextBox from "./TextBox.vue";
 
 export default {
-    props: {
-        messages: Array
-    },
-
     components: {
         TextBox,
+    },
+
+    data() {
+        return {
+            messages: []
+        }
+    },
+
+    created() {
+        Echo
+            .channel("home").listen("NewMessage", (e) => {
+                this.messages.push(e.message)
+                console.log(e);
+            });
+
+        this.messages = [
+            'foo',
+            'bar'
+        ];
     },
 
     methods: {
