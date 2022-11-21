@@ -1,11 +1,11 @@
 import { createRouter, createWebHistory } from "vue-router";
 
-import Chat from "../Components/Chat.vue";
+import HomePage from "../pages/HomePage.vue";
 
 const routes = [
     {
         path: "/",
-        component: Chat,
+        component: HomePage,
     },
 ];
 
