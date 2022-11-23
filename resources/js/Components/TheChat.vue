@@ -6,7 +6,7 @@
         </div>
     </div>
 
-    <TextBox @send-message="sendMessage" />
+    <TextBox />
 
 </template>
 
@@ -14,7 +14,8 @@
 import TextBox from '@/Components/TextBox.vue';
 
 export default {
-    name: 'Chat',
+    name: 'TheChat',
+
     components: {
         TextBox,
     },
@@ -32,19 +33,7 @@ export default {
                 console.log(e);
             });
 
-        this.messages = [
-            'foo',
-            'bar'
-        ];
+        this.messages = [];
     },
-
-    methods: {
-        sendMessage(message) {
-            axios.post("/api/messages", message)
-                .then((response) => {
-                    console.log(response.data);
-                });
-        }
-    }
 }
 </script>

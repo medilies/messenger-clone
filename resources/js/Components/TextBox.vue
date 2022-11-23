@@ -1,28 +1,35 @@
 <template>
-    <form @submit.prevent="onSubmit">
-        <input v-model="newMessage" type="text" class="w-full border-gray-500 rounded-md">
+    <form @submit.prevent="sendMessage">
+        <input type="text" class="w-full border-gray-500 rounded-md" v-model="message">
     </form>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
+    name: "TextBox",
+
     data() {
         return {
-            newMessage: 'Bruh'
+            message: ''
         }
     },
 
     methods: {
-        onSubmit() {
-            if (!this.newMessage) {
+        sendMessage() {
+            if (!this.message) {
                 return;
             }
 
-            console.log(this.newMessage);
+            console.log(this.message);
 
-            this.$emit('send-message', { message: this.newMessage });
+            axios.post("/api/messages", { message: this.message })
+                .then((response) => {
+                    console.log(response.data);
+                });
 
-            this.newMessage = '';
+            this.message = '';
         }
     }
 }

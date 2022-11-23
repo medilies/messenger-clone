@@ -2,8 +2,8 @@ import { defineStore } from "pinia";
 
 export const useAuthStore = defineStore("auth", {
     state: () => ({
-        user: null,
-        bearerToken: null,
+        user: localStorage.getItem("user"),
+        bearerToken: localStorage.getItem("bearerToken"),
     }),
     getters: {},
     actions: {
@@ -11,12 +11,12 @@ export const useAuthStore = defineStore("auth", {
             this.user = response.data.user;
             this.bearerToken = response.data.token;
 
-            sessionStorage.setItem(
+            localStorage.setItem(
                 "bearerToken",
                 JSON.stringify(response.data.token)
             );
 
-            sessionStorage.setItem("user", JSON.stringify(response.data.user));
+            localStorage.setItem("user", JSON.stringify(response.data.user));
         },
     },
 });

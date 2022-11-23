@@ -1,17 +1,19 @@
 <template>
     <div>
         <form @submit.prevent="login">
+
             <div>
                 <label for="email"> Username: </label>
-                <input type="text" name="email" v-model="email" autocomplete="email">
+                <input type="text" name="email" autocomplete="email" v-model="email">
             </div>
 
             <div>
                 <label for="password"> Password: </label>
-                <input type="password" name="password" v-model="password" autocomplete="current-password">
+                <input type="password" name="password" autocomplete="current-password" v-model="password">
             </div>
 
             <button type="submit"> Login </button>
+
         </form>
     </div>
 </template>
@@ -22,15 +24,19 @@ import axios from 'axios';
 import { mapStores } from 'pinia';
 
 export default {
+    name: "LoginPage",
+
     data() {
         return {
             email: '',
             password: '',
         }
     },
+
     computed: {
         ...mapStores(useAuthStore)
     },
+
     methods: {
         login() {
             if (this.email === '' || this.password === '') {

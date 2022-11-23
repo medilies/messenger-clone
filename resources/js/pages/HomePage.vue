@@ -1,22 +1,25 @@
 <template>
     <div class="container mx-auto border">
+
         <h1 class="text-center"> Realtime chat {{ authStore.user.email }}</h1>
 
-        <Chat />
+        <TheChat />
+
     </div>
 </template>
 
 <script >
-import Chat from '@/Components/Chat.vue';
+import TheChat from '@/Components/TheChat.vue';
 import { useAuthStore } from '@/Stores/AuthStore';
 import { mapStores } from 'pinia';
 
-
-
 export default {
+    name: "HomePage",
+
     components: {
-        Chat,
+        TheChat,
     },
+
     computed: {
         ...mapStores(useAuthStore)
     }
