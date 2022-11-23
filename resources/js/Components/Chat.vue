@@ -11,9 +11,10 @@
 </template>
 
 <script>
-import TextBox from "./TextBox.vue";
+import TextBox from '@/Components/TextBox.vue';
 
 export default {
+    name: 'Chat',
     components: {
         TextBox,
     },
