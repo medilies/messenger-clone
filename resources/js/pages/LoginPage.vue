@@ -17,7 +17,9 @@
 </template>
 
 <script>
+import { useAuthStore } from '@/Stores/AuthStore';
 import axios from 'axios';
+import { mapStores } from 'pinia';
 
 export default {
     data() {
@@ -25,6 +27,9 @@ export default {
             email: '',
             password: '',
         }
+    },
+    computed: {
+        ...mapStores(useAuthStore)
     },
     methods: {
         login() {
@@ -43,9 +48,7 @@ export default {
                     this.password = '';
                     this.email = '';
 
-                    sessionStorage.setItem('BearerToken', JSON.stringify(response.data.token));
-
-                    sessionStorage.setItem('user', JSON.stringify(response.data.user));
+                    this.authStore.setAuthFromResponse(response);
 
                     this.$router.push('/');
                 })
