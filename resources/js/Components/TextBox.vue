@@ -19,7 +19,7 @@ function send() {
         return;
     }
 
-    sendMessage({ message: message.value }).then((response) => {
+    sendMessage({ content: message.value }).then((response) => {
         console.log(response.data);
     });
 
