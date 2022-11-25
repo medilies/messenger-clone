@@ -50,7 +50,11 @@ function login() {
 
     axios.get("/sanctum/csrf-cookie").then(() => {
         axios
-            .post("/api/sanctum/token", message)
+            .post("/api/sanctum/token", message, {
+                headers: {
+                    Accept: "application/json",
+                },
+            })
             .then((response) => {
                 console.log(response.data);
                 password.value = "";
