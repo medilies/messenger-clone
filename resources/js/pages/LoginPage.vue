@@ -38,7 +38,7 @@ export default {
     },
 
     methods: {
-        login() {
+        async login() {
             if (this.email === '' || this.password === '') {
                 return;
             }
@@ -48,7 +48,8 @@ export default {
                 password: this.password,
             }
 
-            axios.post("/api/login", message)
+            await axios.get('/sanctum/csrf-cookie');
+            await axios.post("/api/login", message)
                 .then((response) => {
                     console.log(response.data);
                     this.password = '';
@@ -67,6 +68,7 @@ export default {
                         throw err;
                     }
                 });
+
 
         }
     }

@@ -1,11 +1,11 @@
 <template>
-    <form @submit.prevent="sendMessage">
+    <form @submit.prevent="send">
         <input type="text" class="w-full border-gray-500 rounded-md" v-model="message">
     </form>
 </template>
 
 <script>
-import axios from 'axios';
+import sendMessage from "@/Services/SendMessageService.js";
 
 export default {
     name: "TextBox",
@@ -17,14 +17,14 @@ export default {
     },
 
     methods: {
-        sendMessage() {
+        send() {
             if (!this.message) {
                 return;
             }
 
             console.log(this.message);
 
-            axios.post("/api/messages", { message: this.message })
+            sendMessage({ message: this.message })
                 .then((response) => {
                     console.log(response.data);
                 });
