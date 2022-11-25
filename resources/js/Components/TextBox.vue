@@ -1,36 +1,39 @@
 <template>
     <form @submit.prevent="send">
-        <input type="text" class="w-full border-gray-500 rounded-md" v-model="message">
+        <input
+            v-model="message"
+            type="text"
+            class="w-full border-gray-500 rounded-md"
+        />
     </form>
 </template>
 
 <script>
 import sendMessage from "@/Services/SendMessageService.js";
+import { ref } from "vue";
 
 export default {
     name: "TextBox",
 
-    data() {
-        return {
-            message: ''
-        }
-    },
+    setup() {
+        const message = ref("");
 
-    methods: {
-        send() {
-            if (!this.message) {
+        function send() {
+            if (!message.value) {
                 return;
             }
 
-            console.log(this.message);
+            sendMessage({ message: message.value }).then((response) => {
+                console.log(response.data);
+            });
 
-            sendMessage({ message: this.message })
-                .then((response) => {
-                    console.log(response.data);
-                });
-
-            this.message = '';
+            message.value = "";
         }
-    }
-}
+
+        return {
+            message,
+            send,
+        };
+    },
+};
 </script>

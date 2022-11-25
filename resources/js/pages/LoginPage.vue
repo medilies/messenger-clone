@@ -1,75 +1,86 @@
 <template>
     <div>
         <form @submit.prevent="login">
-
             <div>
                 <label for="email"> Username: </label>
-                <input type="text" name="email" autocomplete="email" v-model="email">
+                <input
+                    v-model="email"
+                    type="text"
+                    name="email"
+                    autocomplete="email"
+                />
             </div>
 
             <div>
                 <label for="password"> Password: </label>
-                <input type="password" name="password" autocomplete="current-password" v-model="password">
+                <input
+                    v-model="password"
+                    type="password"
+                    name="password"
+                    autocomplete="current-password"
+                />
             </div>
 
-            <button type="submit"> Login </button>
-
+            <button type="submit">Login</button>
         </form>
     </div>
 </template>
 
 <script>
-import { useAuthStore } from '@/Stores/AuthStore';
-import axios from 'axios';
-import { mapStores } from 'pinia';
+import { useAuthStore } from "@/Stores/AuthStore";
+import axios from "axios";
+import { ref } from "vue";
+import { useRouter } from "vue-router";
 
 export default {
     name: "LoginPage",
 
-    data() {
-        return {
-            email: '',
-            password: '',
-        }
-    },
+    setup() {
+        const authStore = useAuthStore();
+        const router = useRouter();
 
-    computed: {
-        ...mapStores(useAuthStore)
-    },
+        const email = ref("");
+        const password = ref("");
 
-    methods: {
-        async login() {
-            if (this.email === '' || this.password === '') {
+        function login() {
+            if (email.value === "" || password.value === "") {
                 return;
             }
 
             const message = {
-                email: this.email,
-                password: this.password,
-            }
+                email: email.value,
+                password: password.value,
+            };
 
-            await axios.get('/sanctum/csrf-cookie');
-            await axios.post("/api/sanctum/token", message)
-                .then((response) => {
-                    console.log(response.data);
-                    this.password = '';
-                    this.email = '';
+            axios.get("/sanctum/csrf-cookie").then(() => {
+                axios
+                    .post("/api/sanctum/token", message)
+                    .then((response) => {
+                        console.log(response.data);
+                        password.value = "";
+                        email.value = "";
 
-                    this.authStore.setAuthFromResponse(response);
+                        authStore.setAuthFromResponse(response);
 
-                    this.$router.push('/');
-                })
-                .catch((err) => {
-                    console.log(err);
+                        router.push("/");
+                    })
+                    .catch((err) => {
+                        console.log(err);
 
-                    if (err.response.status === 401) {
-                        console.log(err.response.data.message);
-                    } else {
-                        throw err;
-                    }
-                });
-
+                        if (err.response.status === 401) {
+                            console.log(err.response.data.message);
+                        } else {
+                            throw err;
+                        }
+                    });
+            });
         }
-    }
-}
+
+        return {
+            email,
+            password,
+            login,
+        };
+    },
+};
 </script>
