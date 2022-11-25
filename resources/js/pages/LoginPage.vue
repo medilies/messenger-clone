@@ -26,61 +26,49 @@
     </div>
 </template>
 
-<script>
+<script setup>
 import { useAuthStore } from "@/Stores/AuthStore";
 import axios from "axios";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 
-export default {
-    name: "LoginPage",
+const authStore = useAuthStore();
+const router = useRouter();
 
-    setup() {
-        const authStore = useAuthStore();
-        const router = useRouter();
+const email = ref("");
+const password = ref("");
 
-        const email = ref("");
-        const password = ref("");
+function login() {
+    if (email.value === "" || password.value === "") {
+        return;
+    }
 
-        function login() {
-            if (email.value === "" || password.value === "") {
-                return;
-            }
+    const message = {
+        email: email.value,
+        password: password.value,
+    };
 
-            const message = {
-                email: email.value,
-                password: password.value,
-            };
+    axios.get("/sanctum/csrf-cookie").then(() => {
+        axios
+            .post("/api/sanctum/token", message)
+            .then((response) => {
+                console.log(response.data);
+                password.value = "";
+                email.value = "";
 
-            axios.get("/sanctum/csrf-cookie").then(() => {
-                axios
-                    .post("/api/sanctum/token", message)
-                    .then((response) => {
-                        console.log(response.data);
-                        password.value = "";
-                        email.value = "";
+                authStore.setAuthFromResponse(response);
 
-                        authStore.setAuthFromResponse(response);
+                router.push("/");
+            })
+            .catch((err) => {
+                console.log(err);
 
-                        router.push("/");
-                    })
-                    .catch((err) => {
-                        console.log(err);
-
-                        if (err.response.status === 401) {
-                            console.log(err.response.data.message);
-                        } else {
-                            throw err;
-                        }
-                    });
+                if (err.response.status === 401) {
+                    console.log(err.response.data.message);
+                } else {
+                    throw err;
+                }
             });
-        }
-
-        return {
-            email,
-            password,
-            login,
-        };
-    },
-};
+    });
+}
 </script>

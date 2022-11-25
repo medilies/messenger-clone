@@ -8,32 +8,21 @@
     </form>
 </template>
 
-<script>
+<script setup>
 import sendMessage from "@/Services/SendMessageService.js";
 import { ref } from "vue";
 
-export default {
-    name: "TextBox",
+const message = ref("");
 
-    setup() {
-        const message = ref("");
+function send() {
+    if (!message.value) {
+        return;
+    }
 
-        function send() {
-            if (!message.value) {
-                return;
-            }
+    sendMessage({ message: message.value }).then((response) => {
+        console.log(response.data);
+    });
 
-            sendMessage({ message: message.value }).then((response) => {
-                console.log(response.data);
-            });
-
-            message.value = "";
-        }
-
-        return {
-            message,
-            send,
-        };
-    },
-};
+    message.value = "";
+}
 </script>

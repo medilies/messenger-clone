@@ -8,28 +8,14 @@
     <TextBox />
 </template>
 
-<script>
+<script setup>
 import TextBox from "@/Components/TextBox.vue";
 import { ref } from "vue";
 
-export default {
-    name: "TheChat",
+const messages = ref([]);
 
-    components: {
-        TextBox,
-    },
-
-    setup() {
-        const messages = ref([]);
-
-        Echo.channel("home").listen("NewMessage", (e) => {
-            messages.value.push(e.message);
-            console.log(e);
-        });
-
-        return {
-            messages,
-        };
-    },
-};
+Echo.channel("home").listen("NewMessage", (e) => {
+    messages.value.push(e.message);
+    console.log(e);
+});
 </script>

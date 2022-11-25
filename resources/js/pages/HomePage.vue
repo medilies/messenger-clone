@@ -6,23 +6,9 @@
     </div>
 </template>
 
-<script>
+<script setup>
 import TheChat from "@/Components/TheChat.vue";
 import { useAuthStore } from "@/Stores/AuthStore";
 
-export default {
-    name: "HomePage",
-
-    components: {
-        TheChat,
-    },
-
-    setup() {
-        const authStore = useAuthStore();
-
-        return {
-            authStore,
-        };
-    },
-};
+const authStore = useAuthStore();
 </script>
