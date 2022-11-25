@@ -15,8 +15,6 @@
 
     <div id="app"></div>
 
-    <script src="js/my-echo.js" defer></script>
-
 </body>
 
 </html>

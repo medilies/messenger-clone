@@ -1,8 +1,8 @@
+import axios from "axios";
 import authorizationHeader from "./AuthorizationHeaderService";
-import BaseAxios from "./BaseAxios";
 
 const sendMessage = (message) => {
-    return BaseAxios.post("/messages", message, {
+    return axios.post("/api/messages", message, {
         headers: authorizationHeader(),
     });
 };

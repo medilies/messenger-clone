@@ -48,8 +48,8 @@ export default {
                 password: this.password,
             }
 
-            await axios.get('http://127.0.0.1:8000/sanctum/csrf-cookie');
-            await axios.post("http://127.0.0.1:8000/api/login", message)
+            await axios.get('/sanctum/csrf-cookie');
+            await axios.post("/api/login", message)
                 .then((response) => {
                     console.log(response.data);
                     this.password = '';
