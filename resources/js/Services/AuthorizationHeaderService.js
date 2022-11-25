@@ -7,7 +7,6 @@ const authorizationHeader = () => {
 
     if (bearerToken) {
         return {
-            accept: "application/json",
             Authorization: "Bearer " + bearerToken,
         };
     }

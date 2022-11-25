@@ -3,7 +3,10 @@ import authorizationHeader from "./AuthorizationHeaderService";
 
 const sendMessage = (message) => {
     return axios.post("/api/messages", message, {
-        headers: authorizationHeader(),
+        headers: {
+            accept: "application/json",
+            // ...authorizationHeader(),
+        },
     });
 };
 
