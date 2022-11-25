@@ -49,7 +49,7 @@ export default {
             }
 
             await axios.get('/sanctum/csrf-cookie');
-            await axios.post("/api/login", message)
+            await axios.post("/api/sanctum/token", message)
                 .then((response) => {
                     console.log(response.data);
                     this.password = '';
@@ -68,7 +68,6 @@ export default {
                         throw err;
                     }
                 });
-
 
         }
     }
