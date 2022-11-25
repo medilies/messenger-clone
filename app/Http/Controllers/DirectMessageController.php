@@ -28,7 +28,7 @@ class DirectMessageController extends Controller
 
         $direct_message->setRelation('user', auth()->user());
 
-        broadcast(new NewMessage($direct_message->toArray()));
+        broadcast(new NewMessage($direct_message));
 
         return $direct_message;
     }

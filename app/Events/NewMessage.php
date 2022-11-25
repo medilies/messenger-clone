@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Models\DirectMessage;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
@@ -13,7 +14,7 @@ class NewMessage implements ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public function __construct(
-        public array $message
+        public DirectMessage $message
     ) {
         //
     }

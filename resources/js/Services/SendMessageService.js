@@ -5,7 +5,7 @@ const sendMessage = (message) => {
     return axios.post("/api/messages", message, {
         headers: {
             Accept: "application/json",
-            // ...authorizationHeader(),
+            ...authorizationHeader(),
         },
     });
 };
