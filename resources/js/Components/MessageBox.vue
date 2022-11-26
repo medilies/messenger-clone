@@ -12,6 +12,13 @@
 import { sendMessage } from "@/Services/AuthenticatedRequest";
 import { ref } from "vue";
 
+const props = defineProps({
+    targetUser: {
+        type: Object,
+        required: true,
+    },
+});
+
 const message = ref("");
 
 function send() {
@@ -19,7 +26,12 @@ function send() {
         return;
     }
 
-    sendMessage({ content: message.value }).then((response) => {
+    const messageData = {
+        content: message.value,
+        target_user_id: props.targetUser.id,
+    };
+
+    sendMessage(messageData).then((response) => {
         console.log(response.data);
     });
 

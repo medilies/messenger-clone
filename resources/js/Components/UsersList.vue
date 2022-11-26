@@ -1,13 +1,15 @@
 <template>
-    <div class="bg-gray-300">
+    <div class="flex flex-col gap-1 p-1">
         <div v-for="user in usersStore.users" key="user.id">
-            {{ user.name }}
+            <UsersListItem :user="user" />
         </div>
     </div>
 </template>
 
 <script setup>
 import { useUsersStore } from "@/Stores/UsersStore";
+
+import UsersListItem from "@/Components/UsersListItem.vue";
 
 const usersStore = useUsersStore();
 </script>
