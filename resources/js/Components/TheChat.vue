@@ -7,11 +7,11 @@
         </div>
     </div>
 
-    <TextBox />
+    <MessageBox />
 </template>
 
 <script setup>
-import TextBox from "@/Components/TextBox.vue";
+import MessageBox from "@/Components/MessageBox.vue";
 import { ref } from "vue";
 
 const messages = ref([]);

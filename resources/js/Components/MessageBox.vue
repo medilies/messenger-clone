@@ -9,7 +9,7 @@
 </template>
 
 <script setup>
-import sendMessage from "@/Services/SendMessageService.js";
+import { sendMessage } from "@/Services/AuthenticatedRequest";
 import { ref } from "vue";
 
 const message = ref("");
