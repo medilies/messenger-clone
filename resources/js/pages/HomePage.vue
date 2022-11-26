@@ -17,6 +17,7 @@ import { useUsersStore } from "@/Stores/UsersStore";
 import { useChatStore } from "@/Stores/ChatStore";
 
 import { authenticatedGet } from "@/Services/AuthenticatedRequest";
+import { useAuthStore } from "@/Stores/AuthStore";
 
 /*
     Users
@@ -38,6 +39,21 @@ if (usersStore.users === null) {
 
 const chatStore = useChatStore();
 
+const authStore = useAuthStore();
+
+Echo.private(`direct-messages.${authStore.user.id}`).listen(
+    "NewMessage",
+    (message) => {
+        // console.log(message);
+
+        // * already stored on send response handler
+        if (message.user_id === authStore.user.id) {
+            return;
+        }
+
+        chatStore.storeNewMessage(message);
+    }
+);
 Echo.private("direct-messages").listen("NewMessage", (message) => {
     // console.log(message);
     chatStore.storeNewMessage(message);

@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
 use Illuminate\Support\Facades\Broadcast;
 
 /*
@@ -14,6 +14,6 @@ use Illuminate\Support\Facades\Broadcast;
 |
 */
 
-Broadcast::channel('direct-messages', function ($user) {
-    return $user instanceof Model;
+Broadcast::channel('direct-messages.{target_user_id}', function ($user, $target_user_id) {
+    return $user->id === User::find($target_user_id)->id;
 });

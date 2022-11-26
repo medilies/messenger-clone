@@ -4,12 +4,14 @@
             v-model="message"
             type="text"
             class="w-full border-gray-500 rounded-md"
+            autofocus
         />
     </form>
 </template>
 
 <script setup>
 import { sendMessage } from "@/Services/AuthenticatedRequest";
+import { useChatStore } from "@/Stores/ChatStore";
 import { ref } from "vue";
 
 const props = defineProps({
@@ -20,6 +22,8 @@ const props = defineProps({
 });
 
 const message = ref("");
+
+const chatStore = useChatStore();
 
 function send() {
     if (!message.value) {
@@ -33,7 +37,10 @@ function send() {
 
     sendMessage(messageData).then((response) => {
         // console.log(response.data);
+
+        chatStore.storeNewMessage(response.data);
     });
+    // TODO: catch
 
     message.value = "";
 }

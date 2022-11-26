@@ -22,9 +22,8 @@ class DirectMessageController extends Controller
      */
     public function store(StoreDirectMessageRequest $request)
     {
-        // TODO: fix target
         /** @var DirectMessage */
-        $direct_message = DirectMessage::create($request->validated() + ['user_id' => auth()->id()] + ['target_user_id' => auth()->id()]);
+        $direct_message = DirectMessage::create($request->validated() + ['user_id' => auth()->id()]);
 
         $direct_message->setRelation('user', auth()->user());
 

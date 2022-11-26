@@ -26,7 +26,7 @@ class NewMessage implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('direct-messages');
+        return new PrivateChannel("direct-messages.{$this->message->target_user_id}");
     }
 
     /**
