@@ -28,7 +28,7 @@ return [
             'key' => env('PUSHER_APP_KEY'),
             'secret' => env('PUSHER_APP_SECRET'),
             'capacity' => null,
-            'enable_client_messages' => false,
+            'enable_client_messages' => env('PUSHER_ENABLE_CLIENT_MESSAGES=false', false),
             'enable_statistics' => true,
         ],
     ],

@@ -1,6 +1,7 @@
 <template>
     <form @submit.prevent="send">
         <input
+            @keyup="typing"
             v-model="message"
             type="text"
             class="w-full border-gray-500 rounded-md"
@@ -24,6 +25,13 @@ const props = defineProps({
 const message = ref("");
 
 const chatStore = useChatStore();
+
+// function typing() {
+//     console.log("Im typing");
+//     Echo.private(`chat`).whisper("typing", {
+//         name: "hip hop houray",
+//     });
+// }
 
 function send() {
     if (!message.value) {

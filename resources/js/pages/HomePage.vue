@@ -49,8 +49,10 @@ Echo.private(`direct-messages.${authStore.user.id}`).listen(
         chatStore.storeNewMessage(message);
     }
 );
-Echo.private("direct-messages").listen("NewMessage", (message) => {
-    // console.log(message);
-    chatStore.storeNewMessage(message);
-});
+
+// Echo.private(`chat`).listenForWhisper("sent", (e) => {
+//     console.log("they are typing");
+//     console.log(e);
+// });
+
 </script>
