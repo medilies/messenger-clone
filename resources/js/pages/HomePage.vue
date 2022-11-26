@@ -42,7 +42,7 @@ const chatStore = useChatStore();
 const authStore = useAuthStore();
 
 Echo.private(`direct-messages.${authStore.user.id}`).listen(
-    "NewMessage",
+    "DirectMessageEvent",
     (message) => {
         // console.log(message);
 

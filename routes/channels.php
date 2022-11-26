@@ -14,6 +14,6 @@ use Illuminate\Support\Facades\Broadcast;
 |
 */
 
-Broadcast::channel('direct-messages.{target_user_id}', function ($user, $target_user_id) {
+Broadcast::channel('direct-messages.{target_user_id}', function ($user, $target_user_id): bool {
     return $user->id === User::find($target_user_id)->id;
 });

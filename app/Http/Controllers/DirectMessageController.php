@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\NewMessage;
+use App\Events\DirectMessageEvent;
 use App\Http\Requests\DirectMessage\StoreDirectMessageRequest;
-use App\Http\Requests\DirectMessage\UpdateDirectMessageRequest;
 use App\Models\DirectMessage;
 
 class DirectMessageController extends Controller
@@ -12,47 +11,16 @@ class DirectMessageController extends Controller
     /**
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * @return \Illuminate\Http\Response
-     */
-    public function store(StoreDirectMessageRequest $request)
+    public function new(StoreDirectMessageRequest $request)
     {
         /** @var DirectMessage */
         $direct_message = DirectMessage::create($request->validated() + ['user_id' => auth()->id()]);
 
         $direct_message->setRelation('user', auth()->user());
 
-        NewMessage::dispatch($direct_message);
+        // TODO: dispatch and broadcast less user data
+        DirectMessageEvent::dispatch($direct_message);
 
         return $direct_message;
-    }
-
-    /**
-     * @return \Illuminate\Http\Response
-     */
-    public function show(DirectMessage $directMessage)
-    {
-        //
-    }
-
-    /**
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateDirectMessageRequest $request, DirectMessage $directMessage)
-    {
-        //
-    }
-
-    /**
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(DirectMessage $directMessage)
-    {
-        //
     }
 }

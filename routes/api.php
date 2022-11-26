@@ -24,5 +24,5 @@ Route::post('/sanctum/token', LoginController::class);
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/users', [UserController::class, 'index']);
 
-    Route::post('/messages', [DirectMessageController::class, 'store']);
+    Route::post('/messages', [DirectMessageController::class, 'new']);
 });
