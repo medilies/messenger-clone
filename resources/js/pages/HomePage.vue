@@ -46,11 +46,6 @@ Echo.private(`direct-messages.${authStore.user.id}`).listen(
     (message) => {
         // console.log(message);
 
-        // * already stored on send response handler
-        if (message.user_id === authStore.user.id) {
-            return;
-        }
-
         chatStore.storeNewMessage(message);
     }
 );
