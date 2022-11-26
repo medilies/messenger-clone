@@ -14,7 +14,7 @@ window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 
 axios.defaults.baseURL = "http://127.0.0.1:8000";
 
-// window.axios.defaults.withCredentials = true;
+window.axios.defaults.withCredentials = true;
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
@@ -24,6 +24,7 @@ axios.defaults.baseURL = "http://127.0.0.1:8000";
 
 import Echo from "laravel-echo";
 import Pusher from "pusher-js";
+import { authenticatedPost } from "./Services/AuthenticatedRequest";
 
 window.Pusher = Pusher;
 
@@ -37,4 +38,20 @@ window.Echo = new Echo({
     forceTLS: import.meta.env.VITE_PUSHER_SCHEME === "https",
     disableStats: true,
     // enabledTransports: ['ws', 'wss'],
+    authorizer: (channel, options) => {
+        return {
+            authorize: (socketId, callback) => {
+                authenticatedPost("/api/broadcasting/auth", {
+                    socket_id: socketId,
+                    channel_name: channel.name,
+                })
+                    .then((response) => {
+                        callback(false, response.data);
+                    })
+                    .catch((error) => {
+                        callback(true, error);
+                    });
+            },
+        };
+    },
 });

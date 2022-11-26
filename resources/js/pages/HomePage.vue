@@ -38,7 +38,7 @@ if (usersStore.users === null) {
 
 const chatStore = useChatStore();
 
-Echo.channel("direct-messages").listen("NewMessage", (message) => {
+Echo.private("direct-messages").listen("NewMessage", (message) => {
     // console.log(message);
     chatStore.storeNewMessage(message);
 });
