@@ -19,7 +19,7 @@ class DirectMessageController extends Controller
         $direct_message->setRelation('user', auth()->user());
 
         // TODO: dispatch and broadcast less user data
-        DirectMessageEvent::dispatch($direct_message);
+        DirectMessageEvent::broadcast($direct_message)->toOthers();
 
         return $direct_message;
     }
