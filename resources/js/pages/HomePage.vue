@@ -14,8 +14,13 @@ import TheChat from "@/Components/TheChat.vue";
 import UsersList from "@/Components/UsersList.vue";
 
 import { useUsersStore } from "@/Stores/UsersStore";
+import { useChatStore } from "@/Stores/ChatStore";
 
 import { authenticatedGet } from "@/Services/AuthenticatedRequest";
+
+/*
+    Users
+*/
 
 const usersStore = useUsersStore();
 
@@ -26,4 +31,15 @@ if (usersStore.users === null) {
         usersStore.users = response.data;
     });
 }
+
+/*
+    Chat
+*/
+
+const chatStore = useChatStore();
+
+Echo.channel("home").listen("NewMessage", (e) => {
+    // console.log(e);
+    chatStore.storeNewMessage(e.message);
+});
 </script>

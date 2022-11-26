@@ -32,7 +32,7 @@ function send() {
     };
 
     sendMessage(messageData).then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
     });
 
     message.value = "";
