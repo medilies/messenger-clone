@@ -18,11 +18,19 @@ export const useChatStore = defineStore("chat", () => {
         return messages.value[currentChat.value.userId];
     });
 
-    const getCurrentChatUser = computed(() =>
-        usersStore.users.find((user) => user.id === currentChat.value.userId)
-    );
+    const getCurrentChatUser = computed(() => {
+        if (currentChat.value === null) {
+            return null;
+        }
+
+        return usersStore.users.find(
+            (user) => user.id === currentChat.value.userId
+        );
+    });
 
     function storeNewMessage(message) {
+        // console.log(message);
+
         // ! Must not receive messages that are meant for direct messages between other users
         if (
             !(authStore.user.id === message.user_id) &&

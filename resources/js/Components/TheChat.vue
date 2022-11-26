@@ -22,7 +22,6 @@
 import MessageBox from "@/Components/MessageBox.vue";
 
 import { useChatStore } from "@/Stores/ChatStore";
-import { useUsersStore } from "@/Stores/UsersStore";
 
 const chatStore = useChatStore();
 </script>

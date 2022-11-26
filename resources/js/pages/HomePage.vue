@@ -26,7 +26,7 @@ const usersStore = useUsersStore();
 
 if (usersStore.users === null) {
     authenticatedGet("/api/users").then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
 
         usersStore.users = response.data;
     });
@@ -38,8 +38,8 @@ if (usersStore.users === null) {
 
 const chatStore = useChatStore();
 
-Echo.channel("home").listen("NewMessage", (e) => {
-    // console.log(e);
-    chatStore.storeNewMessage(e.message);
+Echo.channel("direct-messages").listen("NewMessage", (message) => {
+    // console.log(message);
+    chatStore.storeNewMessage(message);
 });
 </script>
