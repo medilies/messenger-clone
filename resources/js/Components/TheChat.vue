@@ -1,4 +1,7 @@
 <template>
+    <h1 class="text-center">Chat with</h1>
+
+    <!--  -->
     <div class="flex flex-col gap-2 p-2">
         <div v-for="message in messages">
             <div class="p-2 bg-gray-100">
