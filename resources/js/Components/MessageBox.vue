@@ -26,12 +26,9 @@ const message = ref("");
 
 const chatStore = useChatStore();
 
-// function typing() {
-//     console.log("Im typing");
-//     Echo.private(`chat`).whisper("typing", {
-//         name: "hip hop houray",
-//     });
-// }
+function typing() {
+    Echo.join("chat").whisper("typing", { meh: "bruh" });
+}
 
 function send() {
     if (!message.value) {
