@@ -42,9 +42,9 @@ return [
                 // Added for laravel websockets package
                 'scheme' => env('PUSHER_SCHEME', 'https'),
                 'port' => env('PUSHER_PORT', 443),
-                'host' => env('PUSHER_HOST', 'api-' . env('PUSHER_APP_CLUSTER', 'eu') . '.pusher.com'),
+                'host' => env('PUSHER_HOST', 'api-'.env('PUSHER_APP_CLUSTER', 'eu').'.pusher.com'),
                 //
-                'base_path' => env('PUSHER_BASE_PATH', '/apps/' . env('PUSHER_APP_ID')),
+                'base_path' => env('PUSHER_BASE_PATH', '/apps/'.env('PUSHER_APP_ID')),
             ],
             'client_options' => [
                 // Guzzle client options: https://docs.guzzlephp.org/en/stable/request-options.html

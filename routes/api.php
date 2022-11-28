@@ -25,4 +25,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/users', [UserController::class, 'index']);
 
     Route::post('/messages', [DirectMessageController::class, 'new']);
+    Route::get('/messages/{target_user}', [DirectMessageController::class, 'list']);
 });
