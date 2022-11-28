@@ -29,14 +29,17 @@ import { authenticatedPost } from "./Services/AuthenticatedRequest";
 window.Pusher = Pusher;
 
 window.Echo = new Echo({
+    // Options mentionned by pusher
     broadcaster: "pusher",
     key: import.meta.env.VITE_PUSHER_APP_KEY,
-    wsHost: window.location.hostname,
-    wsPort: import.meta.env.VITE_PUSHER_PORT,
-    wssPort: import.meta.env.VITE_PUSHER_PORT,
     cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
     forceTLS: import.meta.env.VITE_PUSHER_SCHEME === "https",
+    // Options exclusively by beyond code
+    wsHost: import.meta.env.VITE_PUSHER_HOST,
+    wsPort: import.meta.env.VITE_PUSHER_PORT,
     disableStats: true,
+    //
+    // wssPort: import.meta.env.VITE_PUSHER_PORT,
     // enabledTransports: ['ws', 'wss'],
     authorizer: (channel, options) => {
         return {
