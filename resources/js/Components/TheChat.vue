@@ -1,25 +1,23 @@
 <template>
-    <div v-if="chatStore.currentChat === null"></div>
-    <div v-else>
-        <h1 class="text-center">
-            Chat with {{ chatStore.getCurrentChatUser.name }}
-        </h1>
+    <div class="flex flex-col h-full p-3">
+        <div v-if="chatStore.currentChat === null"></div>
 
-        <!--  -->
-        <div class="flex flex-col gap-2 p-2">
-            <div v-for="message in chatStore.getCurrentChatMessages">
-                <div class="p-2 bg-gray-100">
-                    {{ message.user.name }}: {{ message.content }}
+        <div v-else class="flex flex-col h-full">
+            <!--  -->
+            <div class="flex flex-col gap-2 flex-1 p-2">
+                <div v-for="message in chatStore.getCurrentChatMessages">
+                    <ChatMessage :message="message" />
                 </div>
             </div>
-        </div>
 
-        <MessageBox :target-user="chatStore.getCurrentChatUser" />
+            <MessageBox :target-user="chatStore.getCurrentChatUser" />
+        </div>
     </div>
 </template>
 
 <script setup>
 import MessageBox from "@/Components/MessageBox.vue";
+import ChatMessage from "@/Components/ChatMessage.vue";
 
 import { useChatStore } from "@/Stores/ChatStore";
 

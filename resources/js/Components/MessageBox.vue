@@ -3,7 +3,7 @@
         <input
             v-model="message"
             type="text"
-            class="w-full border-gray-500 rounded-md"
+            class="w-full bg-gray-800 border-purple-800 text-white rounded-md"
             autofocus
         />
     </form>
