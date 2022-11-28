@@ -27,7 +27,7 @@ const message = ref("");
 const chatStore = useChatStore();
 
 function typing() {
-    Echo.join("chat").whisper("typing", { msg: message.value });
+    Echo.private("chat").whisper("typing", { msg: message.value });
 }
 
 function send() {

@@ -36,12 +36,15 @@ return [
             'key' => env('PUSHER_APP_KEY'),
             'secret' => env('PUSHER_APP_SECRET'),
             'options' => [
-                'host' => env('PUSHER_HOST'),
-                'port' => env('LARAVEL_WEBSOCKETS_PORT', 6001),
+                // By default on laravel:
+                'cluster' => env('PUSHER_APP_CLUSTER', 'eu'),
+                'useTLS' => env('PUSHER_SCHEME') === 'https', // default to true
+                // Added for laravel websockets package
                 'scheme' => env('PUSHER_SCHEME', 'https'),
-                'encrypted' => env('PUSHER_ENCRYPTED', false),
-                'cluster' => env('PUSHER_APP_CLUSTER'),
-                'useTLS' => env('PUSHER_SCHEME') === 'https',
+                'port' => env('PUSHER_PORT', 443),
+                'host' => env('PUSHER_HOST', 'api-' . env('PUSHER_APP_CLUSTER', 'eu') . '.pusher.com'),
+                //
+                'base_path' => env('PUSHER_BASE_PATH', '/apps/' . env('PUSHER_APP_ID')),
             ],
             'client_options' => [
                 // Guzzle client options: https://docs.guzzlephp.org/en/stable/request-options.html

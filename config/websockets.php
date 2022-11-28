@@ -8,7 +8,7 @@ return [
      * Set a custom dashboard configuration
      */
     'dashboard' => [
-        'port' => env('LARAVEL_WEBSOCKETS_PORT', 6001),
+        'port' => env('PUSHER_PORT', 6001),
     ],
 
     /*
@@ -28,7 +28,7 @@ return [
             'key' => env('PUSHER_APP_KEY'),
             'secret' => env('PUSHER_APP_SECRET'),
             'capacity' => null,
-            'enable_client_messages' => env('PUSHER_ENABLE_CLIENT_MESSAGES=false', false),
+            'enable_client_messages' => env('LARAVEL_WEBSOCKETS_ENABLE_CLIENT_MESSAGES', false),
             'enable_statistics' => true,
         ],
     ],

@@ -50,7 +50,7 @@ Echo.private(`direct-messages.${authStore.user.id}`).listen(
     }
 );
 
-Echo.join("chat").listenForWhisper("typing", (e) => {
+Echo.private("chat").listenForWhisper("typing", (e) => {
     console.log("hooray");
 });
 </script>
