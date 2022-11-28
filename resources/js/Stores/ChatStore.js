@@ -28,6 +28,16 @@ export const useChatStore = defineStore("chat", () => {
         );
     });
 
+    const getCurrentChatUserId = computed(() => {
+        if (currentChat.value === null) {
+            return null;
+        }
+
+        return usersStore.users.find(
+            (user) => user.id === currentChat.value.userId
+        ).id;
+    });
+
     function storeNewMessage(message) {
         // console.log(message);
 
@@ -48,6 +58,7 @@ export const useChatStore = defineStore("chat", () => {
         messages,
         getCurrentChatMessages,
         getCurrentChatUser,
+        getCurrentChatUserId,
         storeNewMessage,
     };
 });

@@ -1,10 +1,10 @@
 <template>
-    <div class="flex container mx-auto border">
-        <div class="flex-1">
-            <TheChat />
-        </div>
-        <div>
+    <div class="flex h-full mx-auto">
+        <div class="h-full bg-slate-900 border border-gray-600">
             <UsersList />
+        </div>
+        <div class="flex-1 border border-gray-600">
+            <TheChat />
         </div>
     </div>
 </template>
