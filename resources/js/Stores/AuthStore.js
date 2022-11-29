@@ -5,7 +5,15 @@ export const useAuthStore = defineStore("auth", {
         user: JSON.parse(localStorage.getItem("user")),
         bearerToken: localStorage.getItem("bearerToken"),
     }),
-    getters: {},
+    getters: {
+        isAuthenticated(state) {
+            if (state.user && state.bearerToken) {
+                return true;
+            }
+
+            return false;
+        },
+    },
     actions: {
         setAuthFromResponse(response) {
             this.user = response.data.user;
