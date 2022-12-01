@@ -1,15 +1,15 @@
 <template>
-    <button
+    <a
         @click="setCurrentChat"
         :class="[
             chatStore.getCurrentChatUserId === props.user.id
                 ? 'text-white bg-blue-800'
                 : 'text-blue-300 bg-blue-900',
         ]"
-        class="w-full hover:text-white bold rounded-md p-2 text-left"
+        class="w-full block hover:text-white bold rounded-md p-1 text-left truncate"
     >
         {{ user.name }}
-    </button>
+    </a>
 </template>
 
 <script setup>

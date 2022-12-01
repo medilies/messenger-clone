@@ -1,6 +1,8 @@
 <template>
-    <div class="flex h-full mx-auto">
-        <div class="h-full bg-slate-900 border border-gray-600">
+    <div class="flex h-full">
+        <div
+            class="h-full w-48 bg-slate-900 border border-gray-600 overflow-y-auto"
+        >
             <UsersList />
         </div>
         <div class="flex-1 border border-gray-600">
