@@ -6,7 +6,7 @@
                 ? 'text-white bg-blue-800'
                 : 'text-blue-300 bg-blue-900',
         ]"
-        class="w-full block hover:text-white bold rounded-md p-1 text-left truncate"
+        class="w-full block hover:text-white rounded-md p-1 text-left truncate"
     >
         {{ user.name }}
     </a>
