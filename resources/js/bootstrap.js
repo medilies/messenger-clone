@@ -10,11 +10,32 @@ window._ = _;
 import axios from "axios";
 window.axios = axios;
 
+import router from "./router";
+
 window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 
 axios.defaults.baseURL = "http://127.0.0.1:8000";
 
 window.axios.defaults.withCredentials = true;
+
+axios.interceptors.response.use(
+    function (response) {
+        return response;
+    },
+    function (error) {
+        // TODO: improve this logic
+        if (error.response.status === 401) {
+            const authStore = useAuthStore();
+
+            authStore.unvalidate();
+            router.push("/login");
+
+            return;
+        }
+
+        return Promise.reject(error);
+    }
+);
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
@@ -25,6 +46,7 @@ window.axios.defaults.withCredentials = true;
 import Echo from "laravel-echo";
 import Pusher from "pusher-js";
 import { authenticatedPost } from "./Services/AuthenticatedRequest";
+import { useAuthStore } from "./Stores/AuthStore";
 
 window.Pusher = Pusher;
 
