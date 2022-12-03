@@ -23,7 +23,7 @@
 </template>
 
 <script setup>
-import { useAuthStore } from "./Stores/AuthStore";
+import { useAuthStore } from "./modules/auth/store/AuthStore";
 
 import NavItem from "./Components/NavItem.vue";
 

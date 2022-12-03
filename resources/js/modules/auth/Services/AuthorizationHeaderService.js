@@ -1,4 +1,4 @@
-import { useAuthStore } from "@/Stores/AuthStore";
+import { useAuthStore } from "@/modules/auth/store/AuthStore";
 
 const authorizationHeader = () => {
     const authStore = useAuthStore();

@@ -18,8 +18,8 @@ import UsersList from "@/Components/UsersList.vue";
 import { useUsersStore } from "@/Stores/UsersStore";
 import { useChatStore } from "@/Stores/ChatStore";
 
-import { authenticatedGet } from "@/Services/AuthenticatedRequest";
-import { useAuthStore } from "@/Stores/AuthStore";
+import { authenticatedGet } from "@/modules/auth/Services/AuthenticatedRequest";
+import { useAuthStore } from "@/modules/auth/store/AuthStore";
 
 /*
     Users

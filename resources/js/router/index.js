@@ -1,11 +1,10 @@
 import { createRouter, createWebHistory } from "vue-router";
 
-import LoginPage from "../pages/LoginPage.vue";
-import RegisterPage from "../pages/RegisterPage.vue";
+import { authRoutes } from "@/modules/auth";
+
 import HomePage from "../pages/HomePage.vue";
 
-import authGuard from "./authGuard";
-import visitorGuard from "./visitorGuard";
+import authGuard from "@/modules/auth/guardes/authGuard";
 
 const routes = [
     {
@@ -14,18 +13,7 @@ const routes = [
         component: HomePage,
         beforeEnter: [authGuard],
     },
-    {
-        path: "/login",
-        name: "login",
-        component: LoginPage,
-        beforeEnter: [visitorGuard],
-    },
-    {
-        path: "/register",
-        name: "register",
-        component: RegisterPage,
-        beforeEnter: [visitorGuard],
-    },
+    ...authRoutes,
 ];
 
 export default createRouter({

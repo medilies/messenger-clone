@@ -11,7 +11,7 @@
 </template>
 
 <script setup>
-import { sendMessage } from "@/Services/AuthenticatedRequest";
+import { sendMessage } from "@/modules/auth/Services/AuthenticatedRequest";
 import { useChatStore } from "@/Stores/ChatStore";
 import { ref } from "vue";
 
