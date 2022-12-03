@@ -6,7 +6,7 @@
             <!--  -->
             <div class="flex flex-col gap-2 flex-1 p-2">
                 <div v-for="message in chatStore.getCurrentChatMessages">
-                    <ChatMessage :message="message" />
+                    <ChatBubble :message="message" />
                 </div>
             </div>
 
@@ -16,7 +16,7 @@
 </template>
 
 <script setup>
-import { MessageBox, ChatMessage, useChatStore } from "@/modules/chat";
+import { MessageBox, ChatBubble, useChatStore } from "@/modules/chat";
 
 const chatStore = useChatStore();
 </script>
