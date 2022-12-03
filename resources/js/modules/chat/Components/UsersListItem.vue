@@ -1,16 +1,16 @@
 <template>
-    <a
-        @click="setCurrentChat"
+    <RouterLink
+        :to="{ name: 'messages.direct', params: { id: props.user.id } }"
         :class="currentChatUserClass"
         class="w-full block hover:text-white rounded-md p-1 text-left truncate cursor-pointer"
     >
         {{ user.name }}
-    </a>
+    </RouterLink>
 </template>
 
 <script setup>
-import { useChatStore } from "@/modules/chat";
 import { reactive } from "vue";
+import { useRoute } from "vue-router";
 
 const props = defineProps({
     user: {
@@ -19,17 +19,11 @@ const props = defineProps({
     },
 });
 
-const chatStore = useChatStore();
-
-function setCurrentChat() {
-    chatStore.currentChat = {
-        type: "direct",
-        userId: props.user.id,
-    };
-}
+const route = useRoute();
 
 const currentChatUserClass = reactive([
-    chatStore.getCurrentChatUserId === props.user.id
+    // ! not reactive check
+    props.user.id === parseInt(route.params.id)
         ? "text-white bg-blue-800"
         : "text-blue-300 bg-blue-900",
 ]);

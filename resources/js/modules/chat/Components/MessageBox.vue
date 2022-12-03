@@ -16,17 +16,13 @@ import { sendMessage } from "@/modules/auth/Services/AuthenticatedRequest"; // !
 import { useChatStore } from "@/modules/chat";
 
 import { ref } from "vue";
-
-const props = defineProps({
-    targetUser: {
-        type: Object,
-        required: true,
-    },
-});
+import { useRoute } from "vue-router";
 
 const message = ref("");
 
 const chatStore = useChatStore();
+
+const route = useRoute();
 
 function typing() {
     Echo.private("chat").whisper("typing", { msg: message.value });
@@ -39,7 +35,7 @@ function send() {
 
     const messageData = {
         content: message.value,
-        target_user_id: props.targetUser.id,
+        target_user_id: parseInt(route.params.id),
     };
 
     sendMessage(messageData).then((response) => {

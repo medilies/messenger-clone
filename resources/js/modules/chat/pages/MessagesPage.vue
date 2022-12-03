@@ -6,13 +6,13 @@
             <UsersList />
         </div>
         <div class="flex-1 border border-gray-600">
-            <TheChat />
+            <router-view />
         </div>
     </div>
 </template>
 
 <script setup>
-import { TheChat, UsersList } from "@/modules/chat";
+import { UsersList } from "@/modules/chat";
 
 import { useUsersStore } from "@/Stores/UsersStore";
 import { useChatStore } from "@/modules/chat";

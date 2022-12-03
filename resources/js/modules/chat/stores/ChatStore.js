@@ -1,41 +1,16 @@
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
 import { useAuthStore } from "@/modules/auth/store/AuthStore";
-import { useUsersStore } from "@/Stores/UsersStore";
+import { useRoute } from "vue-router";
 
 export const useChatStore = defineStore("chat", () => {
     const authStore = useAuthStore();
-    const usersStore = useUsersStore();
+    const route = useRoute();
 
-    const currentChat = ref(null);
     const messages = ref({});
 
     const getCurrentChatMessages = computed(() => {
-        if (currentChat.value === null) {
-            return [];
-        }
-
-        return messages.value[currentChat.value.userId];
-    });
-
-    const getCurrentChatUser = computed(() => {
-        if (currentChat.value === null) {
-            return null;
-        }
-
-        return usersStore.users.find(
-            (user) => user.id === currentChat.value.userId
-        );
-    });
-
-    const getCurrentChatUserId = computed(() => {
-        if (currentChat.value === null) {
-            return null;
-        }
-
-        return usersStore.users.find(
-            (user) => user.id === currentChat.value.userId
-        ).id;
+        return messages.value[parseInt(route.params.id)];
     });
 
     function storeNewMessage(message) {
@@ -54,11 +29,8 @@ export const useChatStore = defineStore("chat", () => {
     }
 
     return {
-        currentChat,
         messages,
         getCurrentChatMessages,
-        getCurrentChatUser,
-        getCurrentChatUserId,
         storeNewMessage,
     };
 });
