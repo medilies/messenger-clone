@@ -12,7 +12,7 @@
 </template>
 
 <script setup>
-import { useAuthStore } from "@/modules/auth/store/AuthStore";
+import { useAuthStore } from "@/modules/auth";
 
 const authStore = useAuthStore();
 

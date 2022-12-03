@@ -1,20 +1,9 @@
 import { createRouter, createWebHistory } from "vue-router";
 
 import { authRoutes } from "@/modules/auth";
+import { chatRoutes } from "@/modules/chat";
 
-import HomePage from "../pages/HomePage.vue";
-
-import authGuard from "@/modules/auth/guardes/authGuard";
-
-const routes = [
-    {
-        path: "/",
-        name: "home",
-        component: HomePage,
-        beforeEnter: [authGuard],
-    },
-    ...authRoutes,
-];
+const routes = [...authRoutes, ...chatRoutes];
 
 export default createRouter({
     history: createWebHistory(),

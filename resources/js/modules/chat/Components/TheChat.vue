@@ -16,10 +16,7 @@
 </template>
 
 <script setup>
-import MessageBox from "@/Components/MessageBox.vue";
-import ChatMessage from "@/Components/ChatMessage.vue";
-
-import { useChatStore } from "@/Stores/ChatStore";
+import { MessageBox, ChatMessage, useChatStore } from "@/modules/chat";
 
 const chatStore = useChatStore();
 </script>

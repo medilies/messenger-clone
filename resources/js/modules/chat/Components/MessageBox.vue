@@ -11,8 +11,10 @@
 </template>
 
 <script setup>
-import { sendMessage } from "@/modules/auth/Services/AuthenticatedRequest";
-import { useChatStore } from "@/Stores/ChatStore";
+import { sendMessage } from "@/modules/auth/Services/AuthenticatedRequest"; // ! move it
+
+import { useChatStore } from "@/modules/chat";
+
 import { ref } from "vue";
 
 const props = defineProps({

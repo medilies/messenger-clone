@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
-import { useAuthStore } from "../modules/auth/store/AuthStore";
-import { useUsersStore } from "./UsersStore";
+import { useAuthStore } from "@/modules/auth/store/AuthStore";
+import { useUsersStore } from "@/Stores/UsersStore";
 
 export const useChatStore = defineStore("chat", () => {
     const authStore = useAuthStore();

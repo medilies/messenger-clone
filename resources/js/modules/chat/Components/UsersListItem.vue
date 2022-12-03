@@ -13,7 +13,7 @@
 </template>
 
 <script setup>
-import { useChatStore } from "@/Stores/ChatStore";
+import { useChatStore } from "@/modules/chat";
 
 const props = defineProps({
     user: {

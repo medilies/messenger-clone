@@ -9,7 +9,7 @@
 <script setup>
 import { useUsersStore } from "@/Stores/UsersStore";
 
-import UsersListItem from "@/Components/UsersListItem.vue";
+import { UsersListItem } from "@/modules/chat";
 
 const usersStore = useUsersStore();
 </script>

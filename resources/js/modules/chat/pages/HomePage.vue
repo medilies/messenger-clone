@@ -12,11 +12,10 @@
 </template>
 
 <script setup>
-import TheChat from "@/Components/TheChat.vue";
-import UsersList from "@/Components/UsersList.vue";
+import { TheChat, UsersList } from "@/modules/chat";
 
 import { useUsersStore } from "@/Stores/UsersStore";
-import { useChatStore } from "@/Stores/ChatStore";
+import { useChatStore } from "@/modules/chat";
 
 import { authenticatedGet } from "@/modules/auth/Services/AuthenticatedRequest";
 import { useAuthStore } from "@/modules/auth/store/AuthStore";
