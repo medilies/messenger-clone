@@ -19,14 +19,6 @@ class DirectMessageController extends Controller
 
     public function list(User $target_user)
     {
-        $messages = DirectMessage::where(function ($q) use ($target_user) {
-            $q->where('user_id', auth()->id())->where('target_user_id', $target_user->id);
-        })
-            ->orWhere(function ($q) use ($target_user) {
-                $q->where('user_id', $target_user->id)->where('target_user_id', auth()->id());
-            })
-            ->latest()->limit(50)->get();
-
-        return $messages;
+        return DirectMessage::whereCorrespondent($target_user->id)->latest()->limit(50)->get()->reverse()->values();
     }
 }
