@@ -46,7 +46,16 @@ class DirectMessageEvent implements ShouldBroadcast
     /** Get the data to broadcast. */
     public function broadcastWith(): array
     {
-        return $this->message->toArray();
+        return [
+            'id' => $this->message->id,
+            'content' => $this->message->content,
+            'created_at' => $this->message->created_at,
+            'user_id' => $this->message->user_id,
+            'target_user_id' => $this->message->target_user_id,
+            'user' => [
+                'name' => $this->message->user->name,
+            ],
+        ];
     }
 
     /** Determine if this event should broadcast. */

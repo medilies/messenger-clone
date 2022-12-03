@@ -18,4 +18,4 @@ Broadcast::channel('direct-messages.{target_user_id}', function ($user, $target_
     return $user->id === User::find($target_user_id)->id;
 });
 
-Broadcast::channel('chat', fn ($user): bool => true);
+Broadcast::channel('chat', fn ($user): bool => auth()->check());

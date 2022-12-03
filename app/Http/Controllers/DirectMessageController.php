@@ -22,7 +22,16 @@ class DirectMessageController extends Controller
         // TODO: dispatch and broadcast less user data
         DirectMessageEvent::broadcast($direct_message)->toOthers();
 
-        return $direct_message;
+        return [
+            'id' => $direct_message->id,
+            'content' => $direct_message->content,
+            'created_at' => $direct_message->created_at,
+            'user_id' => $direct_message->user_id,
+            'target_user_id' => $direct_message->target_user_id,
+            'user' => [
+                'name' => $direct_message->user->name,
+            ],
+        ];
     }
 
     public function list(User $target_user)
