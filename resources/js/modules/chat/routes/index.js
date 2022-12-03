@@ -1,11 +1,17 @@
 import { authGuard } from "@/modules/auth";
-import HomePage from "@/modules/chat/pages/HomePage.vue";
+import MessagesPage from "@/modules/chat/pages/MessagesPage.vue";
 
 export default [
     {
         path: "/",
         name: "home",
-        component: HomePage,
+        component: MessagesPage,
+        beforeEnter: [authGuard],
+    },
+    {
+        path: "/messages",
+        name: "messages",
+        component: MessagesPage,
         beforeEnter: [authGuard],
     },
 ];
