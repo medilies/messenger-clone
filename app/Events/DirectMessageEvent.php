@@ -2,12 +2,12 @@
 
 namespace App\Events;
 
-use App\Models\DirectMessage;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Collection;
 
 class DirectMessageEvent implements ShouldBroadcast
 {
@@ -22,7 +22,7 @@ class DirectMessageEvent implements ShouldBroadcast
     // public $afterCommit = true;
 
     public function __construct(
-        protected DirectMessage $message
+        protected Collection $message
     ) {
         //
     }
@@ -40,22 +40,13 @@ class DirectMessageEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel("direct-messages.{$this->message->target_user_id}");
+        return new PrivateChannel("direct-messages.{$this->message->get('target_user_id')}");
     }
 
     /** Get the data to broadcast. */
     public function broadcastWith(): array
     {
-        return [
-            'id' => $this->message->id,
-            'content' => $this->message->content,
-            'created_at' => $this->message->created_at,
-            'user_id' => $this->message->user_id,
-            'target_user_id' => $this->message->target_user_id,
-            'user' => [
-                'name' => $this->message->user->name,
-            ],
-        ];
+        return $this->message->toArray();
     }
 
     /** Determine if this event should broadcast. */
