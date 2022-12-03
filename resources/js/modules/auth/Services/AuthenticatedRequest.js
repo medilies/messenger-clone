@@ -1,5 +1,5 @@
 import axios from "axios";
-import authorizationHeader from "./AuthorizationHeaderService";
+import { authorizationHeader } from "@/modules/auth";
 
 const authenticatedPost = (path, message, additionalHeaders = {}) => {
     return axios.post(path, message, {

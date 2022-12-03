@@ -1,6 +1,4 @@
-import LoginPage from "@/modules/auth/pages/LoginPage.vue";
-import RegisterPage from "@/modules/auth/pages/RegisterPage.vue";
-import visitorGuard from "@/modules/auth/guardes/visitorGuard";
+import { visitorGuard, LoginPage, RegisterPage } from "@/modules/auth";
 
 export default [
     {

@@ -7,7 +7,7 @@ import {
     authenticatedGet,
     authenticatedPost,
 } from "./Services/AuthenticatedRequest";
-import authorizationHeader from "./Services/AuthorizationHeaderService";
+import authorizationHeader from "@/modules/auth/Services/AuthorizationHeaderService";
 import { useAuthStore } from "./store/AuthStore";
 
 export {
