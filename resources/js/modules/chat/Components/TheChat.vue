@@ -1,6 +1,6 @@
 <template>
-    <section class="flex flex-col h-full p-2">
-        <div class="flex flex-col gap-2 flex-1">
+    <section class="flex flex-col gap-4 h-full p-2 overflow-x-hidden">
+        <div class="flex flex-col gap-2 flex-1 p-1 overflow-y-auto">
             <div v-for="message in chatStore.getCurrentChatMessages">
                 <ChatBubble :message="message" />
             </div>

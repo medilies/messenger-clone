@@ -1,9 +1,12 @@
 <template>
     <div class="flex flex-col" :class="alignClassObject">
         <p class="text-slate-400 text-xs">{{ props.message.user.name }}</p>
-        <div :class="colorClassObject" class="w-4/6 p-2 rounded-md">
+        <p
+            :class="colorClassObject"
+            class="max-w-[80%] p-4 rounded-3xl text-sm break-words"
+        >
             {{ props.message.content }}
-        </div>
+        </p>
     </div>
 </template>
 
@@ -27,6 +30,6 @@ const colorClassObject = reactive([
 ]);
 
 const alignClassObject = reactive([
-    authStore.user.id === props.message.user.id ? "items-end" : "",
+    authStore.user.id === props.message.user.id ? "items-end" : "items-start",
 ]);
 </script>
