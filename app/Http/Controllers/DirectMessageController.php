@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\DirectMessage;
 use App\Models\User;
-use App\Packages\MessageEntity;
+use App\Services\MessageService;
 use Illuminate\Http\Request;
 
 class DirectMessageController extends Controller
@@ -14,7 +14,7 @@ class DirectMessageController extends Controller
      */
     public function new(Request $request)
     {
-        return (new MessageEntity($request))->store()->broadcast()->resource();
+        return (new MessageService($request))->store()->broadcast()->resource();
     }
 
     public function list(User $target_user)

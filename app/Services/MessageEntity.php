@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Packages;
+namespace App\Services;
 
 use App\Events\DirectMessageEvent;
 use App\Models\DirectMessage;
@@ -8,7 +8,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
-class MessageEntity
+class MessageService
 {
     protected array $message;
 
