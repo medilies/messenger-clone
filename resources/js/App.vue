@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col h-screen bg-gray-900">
+    <section class="flex flex-col h-screen bg-gray-900">
         <nav
             class="grow-0 shrink-0 basis-12 bg-slate-900 border border-gray-600"
         >
@@ -17,10 +17,10 @@
             </div>
         </nav>
 
-        <div class="grow-0 shrink basis-full overflow-hidden">
+        <main class="grow-0 shrink basis-full overflow-hidden">
             <router-view />
-        </div>
-    </div>
+        </main>
+    </section>
 </template>
 
 <script setup>

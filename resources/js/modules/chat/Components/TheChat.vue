@@ -1,13 +1,13 @@
 <template>
-    <div class="flex flex-col h-full">
-        <div class="flex flex-col gap-2 flex-1 p-2">
+    <section class="flex flex-col h-full p-2">
+        <div class="flex flex-col gap-2 flex-1">
             <div v-for="message in chatStore.getCurrentChatMessages">
                 <ChatBubble :message="message" />
             </div>
         </div>
 
         <MessageBox />
-    </div>
+    </section>
 </template>
 
 <script setup>

@@ -20,13 +20,13 @@ import { useRoute } from "vue-router";
 
 const message = ref("");
 
-const chatStore = useChatStore();
-
-const route = useRoute();
-
 function typing() {
     Echo.private("chat").whisper("typing", { msg: message.value });
 }
+
+const chatStore = useChatStore();
+
+const route = useRoute();
 
 function send() {
     if (!message.value) {

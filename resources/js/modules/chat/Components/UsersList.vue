@@ -1,9 +1,9 @@
 <template>
-    <div class="flex flex-col h-full gap-1 p-1">
+    <section class="flex flex-col h-full gap-1 p-1">
         <div v-for="user in usersStore.users" key="user.id">
             <UsersListItem :user="user" />
         </div>
-    </div>
+    </section>
 </template>
 
 <script setup>

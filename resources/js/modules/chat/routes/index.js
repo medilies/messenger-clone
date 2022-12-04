@@ -4,12 +4,6 @@ import TheChat from "@/modules/chat/Components/TheChat.vue";
 
 export default [
     {
-        path: "/",
-        name: "home",
-        component: MessagesPage,
-        beforeEnter: [authGuard],
-    },
-    {
         path: "/messages",
         name: "messages",
         component: MessagesPage,
