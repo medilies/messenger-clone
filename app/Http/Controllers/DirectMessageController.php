@@ -19,6 +19,6 @@ class DirectMessageController extends Controller
 
     public function list(User $target_user)
     {
-        return DirectMessage::whereCorrespondent($target_user->id)->latest()->limit(50)->get()->reverse()->values();
+        return DirectMessage::whereCorrespondent($target_user->id)->latest('id')->limit(50)->get()->reverse()->values();
     }
 }

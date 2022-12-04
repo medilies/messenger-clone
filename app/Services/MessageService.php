@@ -23,12 +23,9 @@ class MessageService
         $this->message = $this->validate($data);
     }
 
-    protected function validate(array $data): array
+    public function validate(array $data): array
     {
-        return validator($data, [
-            'content' => ['required', 'string'],
-            'target_user_id' => ['integer'],
-        ])->validate();
+        return validator($data, $this->getRules())->validate();
     }
 
     public function store(): static
@@ -40,13 +37,6 @@ class MessageService
         $this->messageModel = DirectMessage::create($this->message + ['user_id' => auth()->id()]);
 
         $this->messageModel->setRelation('user', auth()->user());
-
-        return $this;
-    }
-
-    public function broadcast(): static
-    {
-        DirectMessageEvent::broadcast($this->resource())->toOthers();
 
         return $this;
     }
@@ -68,5 +58,20 @@ class MessageService
                 'name' => $this->messageModel->user->name,
             ],
         ]);
+    }
+
+    public function broadcast(): static
+    {
+        DirectMessageEvent::broadcast($this->resource())->toOthers();
+
+        return $this;
+    }
+
+    protected function getRules(): array
+    {
+        return [
+            'content' => ['required', 'string'],
+            'target_user_id' => ['integer'],
+        ];
     }
 }
