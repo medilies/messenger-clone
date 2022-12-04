@@ -10,7 +10,9 @@ export const useChatStore = defineStore("chat", () => {
     const messages = ref({});
 
     const getCurrentChatMessages = computed(() => {
-        return messages.value[parseInt(route.params.id)];
+        return messages.value[
+            parseInt(route.params.direct_messages_target_user_id)
+        ];
     });
 
     function storeNewMessage(message) {

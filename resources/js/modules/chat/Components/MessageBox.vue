@@ -35,7 +35,7 @@ function send() {
 
     const messageData = {
         content: message.value,
-        target_user_id: parseInt(route.params.id),
+        target_user_id: parseInt(route.params.direct_messages_target_user_id),
     };
 
     sendMessage(messageData).then((response) => {

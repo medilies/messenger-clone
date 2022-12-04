@@ -1,6 +1,9 @@
 <template>
     <RouterLink
-        :to="{ name: 'messages.direct', params: { id: props.user.id } }"
+        :to="{
+            name: 'messages.direct',
+            params: { direct_messages_target_user_id: props.user.id },
+        }"
         class="w-full block hover:text-white rounded-md p-1 text-left text-sm truncate cursor-pointer text-blue-300 bg-blue-900"
     >
         {{ user.name }}

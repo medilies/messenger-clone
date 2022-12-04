@@ -10,7 +10,7 @@ export default [
         beforeEnter: [authGuard],
         children: [
             {
-                path: "direct/:id",
+                path: "direct/:direct_messages_target_user_id",
                 name: "messages.direct",
                 component: TheChat,
                 beforeEnter: [authGuard],
