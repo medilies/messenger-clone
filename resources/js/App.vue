@@ -6,7 +6,9 @@
             <div v-if="authStore.isAuthenticated">
                 <div class="flex gap-4 justify-center h-full">
                     <NavItem :route="{ name: 'home' }"> Home </NavItem>
-                    <NavItem :route="{ name: 'messages' }"> Chat </NavItem>
+                    <NavItem :route="{ name: 'messages.conversations' }">
+                        Chat
+                    </NavItem>
                 </div>
             </div>
             <div v-else class="h-full">
