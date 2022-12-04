@@ -23,6 +23,10 @@ const route = useRoute();
 async function getOldMessage(direct_messages_target_user_id) {
     direct_messages_target_user_id = parseInt(direct_messages_target_user_id);
 
+    if (isNaN(direct_messages_target_user_id)) {
+        return;
+    }
+
     const response = await authenticatedGet(
         `/api/messages/${direct_messages_target_user_id}`
     );
