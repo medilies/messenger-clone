@@ -28,6 +28,7 @@ async function getOldMessage(direct_messages_target_user_id) {
     );
 
     chatStore.mergeOlderMessages(direct_messages_target_user_id, response.data);
+    // TODO: add auto scroll down
 }
 
 // TODO: optimize this logic of looking for older messages when less than 50

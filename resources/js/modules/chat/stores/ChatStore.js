@@ -40,6 +40,7 @@ export const useChatStore = defineStore("chat", () => {
         messages.value[chatId].push(message);
     }
 
+    // TODO: optimize this logic
     function mergeOlderMessages(chatId, oldMessages) {
         if (!messages.value[chatId]) {
             messages.value[chatId] = [];

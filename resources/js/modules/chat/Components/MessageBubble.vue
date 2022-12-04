@@ -1,6 +1,13 @@
 <template>
-    <div class="flex flex-col" :class="alignClassObject">
-        <p class="text-slate-400 text-xs">{{ props.message.user.name }}</p>
+    <div
+        class="flex flex-col"
+        :class="alignClassObject"
+        :title="props.message.created_at"
+    >
+        <p class="px-4 text-slate-400 text-xs">
+            {{ props.message.user.name }}
+        </p>
+
         <p
             :class="colorClassObject"
             class="max-w-[80%] p-4 rounded-3xl text-sm break-words"
