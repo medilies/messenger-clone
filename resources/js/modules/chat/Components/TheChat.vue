@@ -1,18 +1,14 @@
 <template>
     <section class="flex flex-col gap-4 h-full p-2 overflow-x-hidden">
-        <div class="flex flex-col gap-2 flex-1 p-1 overflow-y-auto">
-            <div v-for="message in chatStore.getCurrentChatMessages">
-                <ChatBubble :message="message" />
-            </div>
-        </div>
-
+        <MessagesFeed />
         <MessageBox />
     </section>
 </template>
 
 <script setup>
 import { authenticatedGet } from "@/modules/auth";
-import { MessageBox, ChatBubble, useChatStore } from "@/modules/chat";
+import { MessageBox, useChatStore } from "@/modules/chat";
+import MessagesFeed from "@/modules/chat/Components/MessagesFeed.vue";
 import { watch } from "vue";
 import { useRoute } from "vue-router";
 
