@@ -1,6 +1,7 @@
 <template>
     <form @submit.prevent="send">
         <input
+            ref="inputRef"
             @keyup="typing"
             v-model="message"
             type="text"
@@ -15,18 +16,22 @@ import { sendMessage } from "@/modules/auth/Services/AuthenticatedRequest"; // !
 
 import { useChatStore } from "@/modules/chat";
 
-import { ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 
 const message = ref("");
+
+const route = useRoute();
+
+//
 
 function typing() {
     Echo.private("chat").whisper("typing", { msg: message.value });
 }
 
-const chatStore = useChatStore();
+//
 
-const route = useRoute();
+const chatStore = useChatStore();
 
 function send() {
     if (!message.value) {
@@ -47,4 +52,18 @@ function send() {
 
     message.value = "";
 }
+
+//
+
+const inputRef = ref(null);
+
+onMounted(() => {
+    inputRef.value.focus();
+});
+
+watch(route, () => {
+    inputRef.value.focus();
+
+    message.value = "";
+});
 </script>
