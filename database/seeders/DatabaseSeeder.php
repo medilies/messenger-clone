@@ -12,16 +12,22 @@ class DatabaseSeeder extends Seeder
 
     public function run()
     {
-        User::factory()->create([
+        $first_user = User::factory()->create([
             'name' => 'medilies',
             'email' => 'y@y.y',
         ]);
 
-        User::factory()->create([
+        $second_user = User::factory()->create([
             'name' => 'dummy',
             'email' => 'e@e.e',
         ]);
 
-        User::factory(30)->create();
+        $other_users = User::factory(30)->create();
+
+        $users_ids = range(1, $other_users->count() + 2);
+
+        $this->call(DirectMessagesSeeder::class, false, ['users_ids' => $users_ids]);
+
+        $this->call(DirectMessagesSeeder::class, false, ['users_ids' => [$first_user->id, $second_user->id], 'count' => 50]);
     }
 }
