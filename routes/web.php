@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'app');
 Route::view('/messages', 'app');
-Route::view('/messages/conversations', 'app');
+Route::view('/messages/inbox', 'app');
 Route::view('/messages/direct/{id}', 'app');
 Route::view('/login', 'app')->name('login');
 Route::view('/register', 'app')->name('register');

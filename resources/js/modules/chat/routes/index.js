@@ -3,7 +3,7 @@ import { authGuard } from "@/modules/auth";
 import MessagesPage from "@/modules/chat/pages/MessagesPage.vue";
 
 import TheChat from "@/modules/chat/Components/TheChat.vue";
-import ConversationsList from "@/modules/chat/Components/ConversationList.vue";
+import Inbox from "@/modules/chat/Components/Inbox.vue";
 
 export default [
     {
@@ -13,9 +13,9 @@ export default [
         beforeEnter: [authGuard],
         children: [
             {
-                path: "conversations",
-                name: "messages.conversations",
-                component: ConversationsList,
+                path: "inbox",
+                name: "messages.inbox",
+                component: Inbox,
                 beforeEnter: [authGuard],
             },
             {
