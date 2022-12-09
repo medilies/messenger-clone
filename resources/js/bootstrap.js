@@ -32,7 +32,7 @@ axios.interceptors.response.use(
         if (error.response.status === 401) {
             const authStore = useAuthStore();
 
-            authStore.unvalidate();
+            authStore.invalidate();
             router.push("/login");
 
             return;
@@ -51,7 +51,7 @@ axios.interceptors.response.use(
 window.Pusher = Pusher;
 
 window.Echo = new Echo({
-    // Options mentionned by pusher
+    // Options mentioned by pusher
     broadcaster: "pusher",
     key: import.meta.env.VITE_PUSHER_APP_KEY,
     cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
@@ -60,9 +60,6 @@ window.Echo = new Echo({
     wsHost: import.meta.env.VITE_PUSHER_HOST,
     wsPort: import.meta.env.VITE_PUSHER_PORT,
     disableStats: true,
-    //
-    // wssPort: import.meta.env.VITE_PUSHER_PORT,
-    // enabledTransports: ['ws', 'wss'],
     authorizer: (channel, options) => {
         return {
             authorize: (socketId, callback) => {

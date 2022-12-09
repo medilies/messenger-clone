@@ -24,7 +24,7 @@ export const useAuthStore = defineStore("auth", {
             localStorage.setItem("user", JSON.stringify(response.data.user));
         },
 
-        unvalidate() {
+        invalidate() {
             this.user = null;
             this.bearerToken = null;
 
