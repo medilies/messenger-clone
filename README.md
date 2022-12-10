@@ -18,6 +18,8 @@
 12. Editing a message, and wether to keep the history of changes or not.
 13. Deleting a message.
 
+Supporting group events has a huge impact on the database design!
+
 ### Front end only features
 
 1. Auto-scrolling down when entering a conversation.
@@ -29,17 +31,17 @@
 
 ## Architecture
 
-Like any other cloud app. This app will need a:
+Like most of cloud apps. This app will need a:
 
 -   **Database** for storing users data and messages.
 -   Backend services for handling API calls, **authentication**, **session management**, **authorization** and **file management**.
 
-In a classical way, **Laravel** with **MySQL** can handle all the above. But now the special part is enabling realtime messaging, if you are a lazy engineer and do not care about your client/employer bills its ok to go to **Firebase** to handle the messaging part. But if you have enough experience you already know that realtime data needs to be mobilized using a realtime protocols such as `websocket`, and you are asking your self which websocket server implementation to couple with the chosen backend.
+In a classical way, **Laravel** with **MySQL** can handle all the above. But now the special part is enabling realtime messaging, if you are a lazy engineer and do not care about your client/employer bills its ok to pick **Firebase** to handle the messaging part. But if you have enough experience you already know that realtime data needs to be mobilized using realtime protocols such as `websocket`, and you are asking your self which websocket server implementation to couple with the chosen backend.
 
-**Laravel** comes bundled with tools that support, **events**, **notifications**, **broadcasting**, and **queues**. But doesn't support any realtime protocol out of the box but instead of letting us stray alone looking for websocket servers to couple with **Laravel**. It eases and recommends the integration of [Pusher](https://pusher.com/) and [Ably](https://ably.com/). Even better, the community maintains packages that can be used as alternative, compatible, self hosted APIs for **Pusher** which are:
+**Laravel** comes bundled with tools that support, **events**, **notifications**, **broadcasting**, and **queues**. But doesn't support any realtime protocol out of the box but instead of letting us stray alone looking for websocket servers to couple with **Laravel**. It eases and recommends the integration of [Pusher](https://pusher.com/) and [Ably](https://ably.com/). Even better, the community maintains packages that can be used as alternative, compatible, self hosted APIs for **Pusher**.
 
--   [Laravel Websockets](https://beyondco.de/docs/laravel-websockets/getting-started/introduction) is a PHP package built on top of [Ratchet](http://socketo.me/), [read more...](https://freek.dev/1228-introducing-laravel-websockets-an-easy-to-use-websocket-server-implemented-in-php).
--   [Soketi](https://soketi.app/) is a NodeJS package built on top of µWebSockets.js.
+1. [Laravel Websockets](https://beyondco.de/docs/laravel-websockets/getting-started/introduction) is a PHP package built on top of [Ratchet](http://socketo.me/), [read more...](https://freek.dev/1228-introducing-laravel-websockets-an-easy-to-use-websocket-server-implemented-in-php).
+2. [Soketi](https://soketi.app/) is a NodeJS package built on top of µWebSockets.js.
 
 My preference is **Laravel Websockets** for the simple fact of being able to maintain it in one repository with the **Laravel** backend.
 
@@ -82,8 +84,6 @@ Setup a database and the `env` configs.
 
 ## Config
 
-> Before broadcasting any events, you will first need to register the `App\Providers\BroadcastServiceProvider`. In new Laravel applications, you only need to uncomment this provider in the providers array of your config/app.php configuration file. This `BroadcastServiceProvider` contains the code necessary to register the broadcast authorization routes and callbacks.
-
 The following config makes it easy to switch between **Pusher** and **Laravel Websockets**.
 
 ```env
@@ -92,30 +92,21 @@ APP_URL=http://127.0.0.1:8000
 
 BROADCAST_DRIVER=pusher
 
-PUSHER_APP_ID=app-id
-PUSHER_APP_KEY=app-key
-PUSHER_APP_SECRET=app-secret
-PUSHER_APP_CLUSTER=mt1
-
-# https:443:encrypyed-true / http:6001:encrypyed-false
-# PUSHER_SCHEME=https
-# PUSHER_PORT=443
-# PUSHER_ENCRYPTED=true
-PUSHER_SCHEME=http
-PUSHER_PORT=6001
-PUSHER_ENCRYPTED=false
-
-# Includes cluster in pusher URL -> replace XX
-# PUSHER_HOST=api-XX.pusher.com
-PUSHER_HOST=127.0.0.1
+PUSHER_APP_ID=
+PUSHER_APP_KEY=
+PUSHER_APP_SECRET=
+PUSHER_HOST=#api-CLUSTER.pusher.com or 127.0.0.1
+PUSHER_PORT=443# or any other port (recommend 6001 for Laravel Websockets)
+PUSHER_SCHEME=https# or http
+PUSHER_APP_CLUSTER=
 
 LARAVEL_WEBSOCKETS_ENABLE_CLIENT_MESSAGES=true
 
 VITE_PUSHER_APP_KEY="${PUSHER_APP_KEY}"
-VITE_PUSHER_APP_CLUSTER="${PUSHER_APP_CLUSTER}"
-VITE_PUSHER_PORT=${PUSHER_PORT}
-VITE_PUSHER_SCHEME="${PUSHER_SCHEME}"
 VITE_PUSHER_HOST="${PUSHER_HOST}"
+VITE_PUSHER_PORT="${PUSHER_PORT}"
+VITE_PUSHER_SCHEME="${PUSHER_SCHEME}"
+VITE_PUSHER_APP_CLUSTER="${PUSHER_APP_CLUSTER}"
 ```
 
 Add Sanctum's middleware `\Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class` to api middleware group within `app/Http/Kernel.php`.
@@ -130,17 +121,17 @@ return [
 
         'pusher' => [
             'driver' => 'pusher',
-            'key' => env('PUSHER_APP_KEY', 'app-key'),
-            'secret' => env('PUSHER_APP_SECRET', 'app-secret'),
-            'app_id' => env('PUSHER_APP_ID', 'app-id'),
+            'key' => env('PUSHER_APP_KEY'),
+            'secret' => env('PUSHER_APP_SECRET'),
+            'app_id' => env('PUSHER_APP_ID'),
             'options' => [
-                // By default on laravel:
-                'cluster' => env('PUSHER_APP_CLUSTER', 'eu'),
-                'useTLS' => env('PUSHER_SCHEME') === 'https', // default to true
-                // Added for laravel websockets package
-                'scheme' => env('PUSHER_SCHEME', 'https'),
+                'host' => env('PUSHER_HOST', 'api-'.env('PUSHER_APP_CLUSTER', 'eu').'.pusher.com') ?: 'api-'.env('PUSHER_APP_CLUSTER', 'eu').'.pusher.com',
                 'port' => env('PUSHER_PORT', 443),
-                'host' => env('PUSHER_HOST', 'api-'.env('PUSHER_APP_CLUSTER', 'eu').'.pusher.com'),
+                'scheme' => env('PUSHER_SCHEME', 'https'),
+                'encrypted' => true,
+                'useTLS' => env('PUSHER_SCHEME', 'https') === 'https',
+                // Added for laravel websockets package
+                'cluster' => env('PUSHER_APP_CLUSTER', 'eu'),
                 //
                 'base_path' => env('PUSHER_BASE_PATH', '/apps/'.env('PUSHER_APP_ID')),
             ],
@@ -196,15 +187,17 @@ window.axios.defaults.withCredentials = true;
 window.Pusher = Pusher;
 
 window.Echo = new Echo({
-    // Options mentioned by pusher
-    broadcaster: "pusher",
+    broadcaster: import.meta.env.VITE_BROADCAST_DRIVER,
     key: import.meta.env.VITE_PUSHER_APP_KEY,
-    cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
-    forceTLS: import.meta.env.VITE_PUSHER_SCHEME === "https",
-    // Options exclusively by beyond code
-    wsHost: import.meta.env.VITE_PUSHER_HOST,
-    wsPort: import.meta.env.VITE_PUSHER_PORT,
-    disableStats: true,
+    wsHost:
+        import.meta.env.VITE_PUSHER_HOST ??
+        `ws-${import.meta.env.VITE_PUSHER_APP_CLUSTER}.pusher.com`,
+    wsPort: import.meta.env.VITE_PUSHER_PORT ?? 80,
+    wssPort: import.meta.env.VITE_PUSHER_PORT ?? 443,
+    forceTLS: (import.meta.env.VITE_PUSHER_SCHEME ?? "https") === "https",
+    enabledTransports: ["ws", "wss"],
+    cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER, // Options mentioned by pusher
+    disableStats: true, // Options mentioned by beyond code
     authorizer: (channel, options) => {
         return {
             authorize: (socketId, callback) => {
@@ -268,14 +261,103 @@ Route::fallback(fn() => view('app'));
 
 ## Laravel broadcasting
 
-> Events are broadcast over "channels", which may be specified as public or private.
-> Any visitor to your application may subscribe to a public channel without any authentication or authorization; however, in order to subscribe to a private channel, a user must be authenticated and authorized to listen on that channel.
+### Channels
 
-### ShouldBroadcast events interface
+-   Events are broadcast over "channels", which may be specified as **public** or **private**.
+-   Any visitor to your application may subscribe to a **public channel** without any **authentication** or **authorization**.
+-   In order to subscribe to a **private channel**, a user must be **authenticated** and **authorized** to listen on that channel.
+
+Instances of `Channel` represent **public channels** that any user may subscribe to, while `PrivateChannels` and `PresenceChannels` represent **private channels** that require **authorization**.
+
+### Events
+
+#### ShouldBroadcast
 
 Broadcastable events must implement the `Illuminate\Contracts\Broadcasting\ShouldBroadcast` interface, This will instruct Laravel to broadcast the event when it is fired.
 
-The `ShouldBroadcast` interface requires our event to define a broadcastOn method.
+#### broadcastOn
+
+The `ShouldBroadcast` interface requires the event to define a `broadcastOn` method. The method returns the channel to broadcast the event on.
+
+-   `Illuminate\Broadcasting\Channel`,
+-   `Illuminate\Broadcasting\PrivateChannel`
+-   `Illuminate\Broadcasting\PresenceChannel`
+
+#### broadcastAs
+
+By default, Laravel will broadcast the event using the event's class name. However, you may customize the broadcast name.
+
+```php
+/**
+ * The event's broadcast name.
+ */
+public function broadcastAs()
+{
+    return 'EventName';
+}
+```
+
+#### broadcastWith
+
+When an event is broadcast, all of its `public` properties are automatically serialized and broadcast as the event's payload.
+
+```php
+/**
+ * Get the data to broadcast.
+ */
+public function broadcastWith()
+{
+    return $data;
+}
+```
+
+#### broadcastWhen
+
+Sometimes you want to broadcast your event only if a given condition is true.
+
+```php
+/**
+ * Determine if this event should broadcast.
+ */
+public function broadcastWhen()
+{
+    return true;
+}
+```
+
+#### broadcastQueue
+
+Once the event has been fired, a queued job will automatically broadcast the event using your specified broadcast driver.
+
+By default, each broadcast event is placed on the default queue for the default queue connection specified in your queue.php configuration file.
+
+...
+
+#### afterCommit
+
+...
+
+### Authorization
+
+Channel authorization rules are defined in `routes/channels.php`.
+
+```php
+use App\Models\User;
+use Illuminate\Support\Facades\Broadcast;
+
+Broadcast::channel('name.{param}', function (User $user, bool|int|string|float $param): bool {
+    // true = authorized
+    return auth()->check();
+});
+```
+
+### Echo
+
+```js
+Echo.private(`name.${param}`).listen("SomeEvent", (e) => {
+    console.log(e);
+});
+```
 
 ## References
 
