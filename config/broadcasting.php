@@ -32,17 +32,17 @@ return [
 
         'pusher' => [
             'driver' => 'pusher',
-            'app_id' => env('PUSHER_APP_ID'),
             'key' => env('PUSHER_APP_KEY'),
             'secret' => env('PUSHER_APP_SECRET'),
+            'app_id' => env('PUSHER_APP_ID'),
             'options' => [
-                // By default on laravel:
-                'cluster' => env('PUSHER_APP_CLUSTER', 'eu'),
-                'useTLS' => env('PUSHER_SCHEME') === 'https', // default to true
-                // Added for laravel websockets package
-                'scheme' => env('PUSHER_SCHEME', 'https'),
+                'host' => env('PUSHER_HOST', 'api-'.env('PUSHER_APP_CLUSTER', 'eu').'.pusher.com') ?: 'api-'.env('PUSHER_APP_CLUSTER', 'eu').'.pusher.com',
                 'port' => env('PUSHER_PORT', 443),
-                'host' => env('PUSHER_HOST', 'api-'.env('PUSHER_APP_CLUSTER', 'eu').'.pusher.com'),
+                'scheme' => env('PUSHER_SCHEME', 'https'),
+                'encrypted' => true,
+                'useTLS' => env('PUSHER_SCHEME', 'https') === 'https',
+                // Added for laravel websockets package
+                'cluster' => env('PUSHER_APP_CLUSTER', 'eu'),
                 //
                 'base_path' => env('PUSHER_BASE_PATH', '/apps/'.env('PUSHER_APP_ID')),
             ],
