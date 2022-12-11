@@ -3,10 +3,7 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DirectMessageController;
 use App\Http\Controllers\UserController;
-use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Route;
-
-Broadcast::routes(['middleware' => ['auth:sanctum']]);
 
 /*
 |--------------------------------------------------------------------------

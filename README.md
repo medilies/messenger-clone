@@ -204,7 +204,7 @@ window.Echo = new Echo({
             authorize: (socketId, callback) => {
                 axios
                     .post(
-                        "/api/broadcasting/auth",
+                        "/broadcasting/auth",
                         {
                             socket_id: socketId,
                             channel_name: channel.name,
@@ -232,22 +232,23 @@ window.Echo = new Echo({
 
 ```php
 // routes/api.php
-use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Route;
-
-Broadcast::routes(['middleware' => ['auth:sanctum']]);
-
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-*/
 
 Route::post('/sanctum/token', LoginController::class);
 
 Route::middleware('auth:sanctum')->group(function () {
     // ...
 });
+```
+
+```php
+// app\Providers\BroadcastServiceProvider.php
+    public function boot()
+    {
+        Broadcast::routes(['middleware' => ['auth:sanctum']]);
+
+        require base_path('routes/channels.php');
+    }
 ```
 
 ```php
