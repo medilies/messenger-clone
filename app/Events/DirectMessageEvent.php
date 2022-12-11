@@ -13,25 +13,11 @@ class DirectMessageEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    // /** The name of the queue connection to use when broadcasting the event. */
-    // public string $connection = 'redis';
-
-    // /** The name of the queue on which to place the broadcasting job. */
-    // public string $queue = 'default';
-
-    // public $afterCommit = true;
-
     public function __construct(
         protected Collection $message
     ) {
         //
     }
-
-    // /** The event's broadcast name. */
-    // public function broadcastAs(): string
-    // {
-    //     return 'DirectMessageEvent';
-    // }
 
     /**
      * Get the channels the event should broadcast on.
@@ -47,11 +33,5 @@ class DirectMessageEvent implements ShouldBroadcast
     public function broadcastWith(): array
     {
         return $this->message->toArray();
-    }
-
-    /** Determine if this event should broadcast. */
-    public function broadcastWhen(): bool
-    {
-        return true;
     }
 }
