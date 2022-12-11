@@ -3,7 +3,11 @@
         ref="containerDiv"
         class="flex flex-col gap-2 flex-1 p-1 overflow-y-auto"
     >
-        <div v-for="message in chatStore.getCurrentChatMessages">
+        <div v-for="(message, index) in chatStore.getCurrentChatMessages">
+            <div v-if="thresholdDiff(index)" class="text-white text-center">
+                {{ new Date(message.created_at).toLocaleString() }}
+            </div>
+
             <ChatBubble :message="message" />
         </div>
     </div>
@@ -26,4 +30,26 @@ function scrollDown() {
 }
 
 onUpdated(scrollDown);
+
+function thresholdDiff(index) {
+    const threshold = 1000 * 60 * 60 * 2;
+
+    const diff = (index) => {
+        if (index === 0) {
+            return 0;
+        }
+
+        const t =
+            new Date(
+                chatStore.getCurrentChatMessages[index].created_at
+            ).valueOf() -
+            new Date(
+                chatStore.getCurrentChatMessages[index - 1].created_at
+            ).valueOf();
+
+        return t;
+    };
+
+    return diff(index) > threshold;
+}
 </script>
