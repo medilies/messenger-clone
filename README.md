@@ -342,6 +342,12 @@ By default, each broadcast event is placed on the default queue for the default 
 
 ### Authorization
 
+Authorizing that the currently authenticated user can actually listen on the **private channel** is accomplished by, making an HTTP request to your Laravel application with the channel name, and allowing your application to determine if the user can listen on that channel.
+
+When using `Echo`, the HTTP request to **authorize subscriptions** to **private channels** will be made automatically; however, you do need to define the proper routes to respond to these requests.
+
+In `app\Providers\BroadcastServiceProvider.php`, the `Broadcast::routes` method registers the `/broadcasting/auth` route to handle authorization requests. The method will automatically place its routes within the `web` **middleware group**; however, you may pass an array of route attributes to the method if you would like to customize the assigned attributes.
+
 Channel authorization rules are defined in `routes/channels.php`.
 
 ```php
@@ -361,6 +367,22 @@ Echo.private(`name.${param}`).listen("SomeEvent", (e) => {
     console.log(e);
 });
 ```
+
+#### Custom authorization endpoint
+
+By default, `Echo` will use the `/broadcasting/auth` endpoint to authorize channel access. However, you may customize it.
+
+```js
+window.Echo = new Echo({
+    broadcaster: "pusher",
+    // ...
+    authEndpoint: "/custom/endpoint/auth",
+});
+```
+
+#### Customizing the authorization request
+
+...
 
 ## References
 
