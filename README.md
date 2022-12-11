@@ -8,17 +8,17 @@
 2. Searching for a contact.
 3. Direct messages.
 4. Group messages.
-5. Sending media.
-6. Sending vocal messages.
-7. Indicating the connection status of a contact.
-8. Indicating when a contact was last seen if not connected.
-9. Signaling if user is typing.
-10. Reporting the message state sending - sent - delivered - seen.
-11. Searching for a message in a conversation.
-12. Editing a message, and wether to keep the history of changes or not.
-13. Deleting a message.
-
-Supporting group events has a huge impact on the database design!
+5. Replying to messages.
+6. Replying to messages in threads.
+7. Sending media.
+8. Sending vocal messages.
+9. Indicating the connection status of a contact.
+10. Indicating when a contact was last seen if not connected.
+11. Signaling if user is typing.
+12. Reporting the message state sending - sent - delivered - seen.
+13. Searching for a message in a conversation.
+14. Editing a message, and wether to keep the history of changes or not.
+15. Deleting a message.
 
 ### Front end only features
 
@@ -38,16 +38,16 @@ Like most of cloud apps. This app will need a:
 
 In a classical way, **Laravel** with **MySQL** can handle all the above. But now the special part is enabling realtime messaging, if you are a lazy engineer and do not care about your client/employer bills its ok to pick **Firebase** to handle the messaging part. But if you have enough experience you already know that realtime data needs to be mobilized using realtime protocols such as `websocket`, and you are asking your self which websocket server implementation to couple with the chosen backend.
 
-**Laravel** comes bundled with tools that support, **events**, **notifications**, **broadcasting**, and **queues**. But doesn't support any realtime protocol out of the box but instead of letting us stray alone looking for websocket servers to couple with **Laravel**. It eases and recommends the integration of [Pusher](https://pusher.com/) and [Ably](https://ably.com/). Even better, the community maintains packages that can be used as alternative, compatible, self hosted APIs for **Pusher**.
+**Laravel** comes bundled with tools that support, **events**, **notifications**, **broadcasting**, and **queues**. But doesn't support any realtime protocol out of the box but instead of letting us stray alone looking for websocket servers to couple with **Laravel**. It eases and recommends the integration of [Pusher](https://pusher.com/) or [Ably](https://ably.com/). Even better, the community maintains packages that can be used as alternative, compatible, self hosted APIs for **Pusher**.
 
 1. [Laravel Websockets](https://beyondco.de/docs/laravel-websockets/getting-started/introduction) is a PHP package built on top of [Ratchet](http://socketo.me/), [read more...](https://freek.dev/1228-introducing-laravel-websockets-an-easy-to-use-websocket-server-implemented-in-php).
 2. [Soketi](https://soketi.app/) is a NodeJS package built on top of µWebSockets.js.
 
-My preference is **Laravel Websockets** for the simple fact of being able to maintain it in one repository with the **Laravel** backend.
+My preference is `laravel-websockets` for the simple fact of being able to maintain it in one repository with the **Laravel** backend.
 
-For the client side **pusher-js** library is the go to, and **laravel-echo** makes it even easier to use publish and subscribe from the browsers.
+For the client side `pusher-js` library is the go to, and `laravel-echo` makes it even easier to use publish and subscribe from the browsers.
 
-To be more exhaustive, this demo will be using **Sanctum** for authenticating API calls. And **Axios** as a front end HTTP client.
+To be more exhaustive, this demo will be using `sanctum` for authenticating API calls. And `axios` as a front end HTTP client.
 
 ### Scaling
 
@@ -55,10 +55,12 @@ To be more exhaustive, this demo will be using **Sanctum** for authenticating AP
 
 ## Database
 
+Supporting group events has a huge impact on the database design!
+
 ## Scaffolding
 
 ```shell
-laravel new --git laravel-clone
+laravel new --git messenger-clone
 ```
 
 ```shell
@@ -130,9 +132,8 @@ return [
                 'scheme' => env('PUSHER_SCHEME', 'https'),
                 'encrypted' => true,
                 'useTLS' => env('PUSHER_SCHEME', 'https') === 'https',
-                // Added for laravel websockets package
+                // Added
                 'cluster' => env('PUSHER_APP_CLUSTER', 'eu'),
-                //
                 'base_path' => env('PUSHER_BASE_PATH', '/apps/'.env('PUSHER_APP_ID')),
             ],
             'client_options' => [
@@ -155,9 +156,9 @@ return [
     'apps' => [
         [
             'name' => env('APP_NAME'),
-            'id' => env('PUSHER_APP_ID', 'app-id'),
-            'key' => env('PUSHER_APP_KEY', 'app-key'),
-            'secret' => env('PUSHER_APP_SECRET', 'app-secret'),
+            'id' => env('PUSHER_APP_ID'),
+            'key' => env('PUSHER_APP_KEY'),
+            'secret' => env('PUSHER_APP_SECRET'),
             'capacity' => null,
             'enable_client_messages' => env('LARAVEL_WEBSOCKETS_ENABLE_CLIENT_MESSAGES', false),
             'enable_statistics' => true,
@@ -250,6 +251,7 @@ Route::middleware('auth:sanctum')->group(function () {
 ```
 
 ```php
+// routes/web.php
 use Illuminate\Support\Facades\Route;
 
 Route::fallback(fn() => view('app'));
@@ -264,7 +266,7 @@ Route::fallback(fn() => view('app'));
 ### Channels
 
 -   Events are broadcast over "channels", which may be specified as **public** or **private**.
--   Any visitor to your application may subscribe to a **public channel** without any **authentication** or **authorization**.
+-   Any visitor may subscribe to a **public channel** without any **authentication** or **authorization**.
 -   In order to subscribe to a **private channel**, a user must be **authenticated** and **authorized** to listen on that channel.
 
 Instances of `Channel` represent **public channels** that any user may subscribe to, while `PrivateChannels` and `PresenceChannels` represent **private channels** that require **authorization**.
@@ -329,7 +331,7 @@ public function broadcastWhen()
 
 Once the event has been fired, a queued job will automatically broadcast the event using your specified broadcast driver.
 
-By default, each broadcast event is placed on the default queue for the default queue connection specified in your queue.php configuration file.
+By default, each broadcast event is placed on the default queue for the default queue connection specified in `config\queue.php` file.
 
 ...
 
@@ -361,12 +363,29 @@ Echo.private(`name.${param}`).listen("SomeEvent", (e) => {
 
 ## References
 
-<https://devtechnosys.com/messaging-app-development.php>
+### Laravel docs refs
 
-<https://towardsdatascience.com/ace-the-system-interview-design-a-chat-application-3f34fd5b85d0>
+-   <https://laravel.com/docs/9.x/queues>
+-   <https://laravel.com/docs/9.x/events>
+-   <https://laravel.com/docs/9.x/notifications>
+-   <https://laravel.com/docs/9.x/broadcasting>
+-   <https://laravel.com/docs/9.x/sanctum>
 
-<https://stackoverflow.com/questions/46484989/database-schema-for-chat-private-and-group>
+### Database Design refs
 
-<https://stackoverflow.com/questions/39810106/storing-messages-of-different-chats-in-a-single-database-table>
+-   <https://www.youtube.com/watch?v=xL_tYrEcP9M>
+-   <https://towardsdatascience.com/ace-the-system-interview-design-a-chat-application-3f34fd5b85d0>
+-   <https://stackoverflow.com/questions/46484989/database-schema-for-chat-private-and-group>
+-   <https://stackoverflow.com/questions/39810106/storing-messages-of-different-chats-in-a-single-database-table>
 
-<https://www.youtube.com/watch?v=vvhC64hQZMk>
+### Architecture refs
+
+-   <https://devtechnosys.com/messaging-app-development.php>
+-   <https://www.youtube.com/watch?v=vvhC64hQZMk>
+
+### Laravel Webcockets refs
+
+-   <https://beyondco.de/docs/laravel-websockets/getting-started/introduction>
+-   <https://www.youtube.com/watch?v=xKru8j9LXjA>
+-   <https://www.youtube.com/watch?v=pd8LmGxt5Og&list=PLSfH3ojgWsQosqpQUc28yP9jJZXrEylJY&index=47> \[45-52\]
+-   <https://www.youtube.com/watch?v=UwB5z6u7vt8>
