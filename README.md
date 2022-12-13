@@ -230,6 +230,8 @@ window.Echo = new Echo({
 });
 ```
 
+> It is essential to provide an `authorizer` callback to the config to add the `Authorization` HTTP headers.
+
 ```php
 // routes/api.php
 use Illuminate\Support\Facades\Route;
@@ -348,17 +350,46 @@ When using `Echo`, the HTTP request to **authorize subscriptions** to **private 
 
 In `app\Providers\BroadcastServiceProvider.php`, the `Broadcast::routes` method registers the `/broadcasting/auth` route to handle authorization requests. The method will automatically place its routes within the `web` **middleware group**; however, you may pass an array of route attributes to the method if you would like to customize the assigned attributes.
 
-Channel authorization rules are defined in `routes/channels.php`.
+Register channel authorization callbacks in `routes/channels.php`.
 
 ```php
 use App\Models\User;
 use Illuminate\Support\Facades\Broadcast;
 
-Broadcast::channel('name.{param}', function (User $user, bool|int|string|float $param): bool {
-    // true = authorized
-    return auth()->check();
-});
+Broadcast::channel(
+    'name.{param}',
+    fn (User $user, bool|int|string|float $param): bool => auth()->check(), // true = authorized
+    ['guards' => ['web', 'admin']] // Optional custom guards
+);
 ```
+
+All authorization callbacks receive the currently authenticated user as their first argument and any additional wildcard parameters as their subsequent arguments.
+
+You can the authorization logic from the callback to a class.
+
+```shell
+php artisan make:channel ChannelNameChannel
+```
+
+```php
+use App\Broadcasting\OrderChannel;
+
+Broadcast::channel('name.{param}', ChannelNameChannel::class);
+```
+
+### Dispatching
+
+```php
+use App\Events\SomeEvent;
+
+SomeEvent::dispatch($data);
+
+broadcast(new SomeEvent($data))->toOthers();
+```
+
+An event must use the `Illuminate\Broadcasting\InteractsWithSockets` trait in order to call the `toOthers` method.
+
+When you initialize a `Echo`, a `socket ID` is assigned to the connection. If you are using a **global Axios instance** to make HTTP requests from your JavaScript application, `socket ID` will automatically be attached to every outgoing HTTP request as a `X-Socket-ID` header. Then, when you call `toOthers`, **Laravel** will extract `socket ID` from the header and instruct the **broadcaster** to not broadcast to any connections with that `socket ID`.
 
 ### Echo
 
@@ -380,9 +411,13 @@ window.Echo = new Echo({
 });
 ```
 
-#### Customizing the authorization request
+#### Socket ID
 
-...
+If you are not using a **global Axios instance**, you will need to manually configure your JavaScript application to send the `X-Socket-ID` header with all outgoing requests. You may retrieve the `socket ID` using:
+
+```js
+var socketId = Echo.socketId();
+```
 
 ## References
 
