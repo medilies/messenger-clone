@@ -199,6 +199,8 @@ window.Echo = new Echo({
     enabledTransports: ["ws", "wss"],
     cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER, // Options mentioned by pusher
     disableStats: true, // Options mentioned by beyond code
+    // authEndpoint: "/custom/endpoint/auth",
+    // namespace: 'App.Other.Namespace'
     authorizer: (channel, options) => {
         return {
             authorize: (socketId, callback) => {
@@ -361,6 +363,16 @@ Broadcast::channel(
     fn (User $user, bool|int|string|float $param): bool => auth()->check(), // true = authorized
     ['guards' => ['web', 'admin']] // Optional custom guards
 );
+
+Broadcast::channel(
+    'chat.{roomId}',
+    function ($user, $roomId) {
+        if ($user->canJoinRoom($roomId)) {
+            // Return user data = authorized
+            return ['id' => $user->id, 'name' => $user->name];
+        }
+    }
+);
 ```
 
 All authorization callbacks receive the currently authenticated user as their first argument and any additional wildcard parameters as their subsequent arguments.
@@ -394,20 +406,78 @@ When you initialize a `Echo`, a `socket ID` is assigned to the connection. If yo
 ### Echo
 
 ```js
-Echo.private(`name.${param}`).listen("SomeEvent", (e) => {
-    console.log(e);
-});
+// Subscribe and register event handlers
+
+// Public
+Echo.channel(`public.${param}`)
+    .listen("SomeEvent", (e) => {
+        console.log(e);
+    })
+    .listen(/* ... */)
+    .listen(/* ... */)
+    .listen(/* ... */);
+
+// Private
+Echo.private(`private.${param}`)
+    .listen("SomeEvent", (e) => {
+        console.log(e);
+    })
+    .listen(/* ... */)
+    .listen(/* ... */)
+    .listen(/* ... */);
 ```
 
-#### Custom authorization endpoint
-
-By default, `Echo` will use the `/broadcasting/auth` endpoint to authorize channel access. However, you may customize it.
+```js
+// Unconventional base event namespace
+Echo.channel("someChannel").listen(
+    ".NotAppEventsNamespace\\Event\\Class", // Start with '.'
+    (e) => {
+        /* ... */
+    }
+);
+```
 
 ```js
-window.Echo = new Echo({
-    broadcaster: "pusher",
-    // ...
-    authEndpoint: "/custom/endpoint/auth",
+// Stop Listening For Events
+Echo.channel(`public.${param}`).stopListening("SomeEvent");
+Echo.private(`private.${param}`).stopListening("SomeEvent");
+```
+
+```js
+// Presence channel
+Echo.join(`chat.${roomId}`)
+    .here((users) => {
+        // executed immediately once the channel is joined successfully
+    })
+    .joining((user) => {
+        // executed when a new user joins
+        console.log(user.name);
+    })
+    .leaving((user) => {
+        // executed when a user leaves the channel
+        console.log(user.name);
+    })
+    .error((error) => {
+        // executed when the authentication endpoint returns a HTTP status code other than 200
+        // or if there is a problem parsing the returned JSON
+        console.error(error);
+    })
+    .listen(/* ... */)
+    .listen(/* ... */)
+    .listen(/* ... */);
+```
+
+```js
+// client events
+
+// Send
+Echo.private(`chat.${roomId}`).whisper("typing", {
+    name: this.user.name,
+});
+
+// Listen
+Echo.private(`chat.${roomId}`).listenForWhisper("typing", (e) => {
+    console.log(e.name);
 });
 ```
 
@@ -416,7 +486,7 @@ window.Echo = new Echo({
 If you are not using a **global Axios instance**, you will need to manually configure your JavaScript application to send the `X-Socket-ID` header with all outgoing requests. You may retrieve the `socket ID` using:
 
 ```js
-var socketId = Echo.socketId();
+let socketId = Echo.socketId();
 ```
 
 ## References
