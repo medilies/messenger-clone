@@ -74,7 +74,7 @@ composer require pusher/pusher-php-server:7.0.2
 > Version compatibilty issue <https://github.com/beyondcode/laravel-websockets/issues/1041>
 
 ```shell
-composer require beyondcode/laravel-websockets
+composer require beyondcode/laravel-websockets:1.13.1
 php artisan vendor:publish --provider="BeyondCode\LaravelWebSockets\WebSocketsServiceProvider" --tag="config"
 ```
 
@@ -232,7 +232,7 @@ window.Echo = new Echo({
 });
 ```
 
-> It is essential to provide an `authorizer` callback to the config to add the `Authorization` HTTP headers.
+> It is essential to provide an `authorizer` callback to the config to add the `Authorization` HTTP headers (`Bearer`, cookies, ...).
 
 ```php
 // routes/api.php
@@ -284,23 +284,20 @@ Broadcastable events must implement the `Illuminate\Contracts\Broadcasting\Shoul
 
 #### broadcastOn
 
-The `ShouldBroadcast` interface requires the event to define a `broadcastOn` method. The method returns the channel to broadcast the event on.
-
--   `Illuminate\Broadcasting\Channel`,
--   `Illuminate\Broadcasting\PrivateChannel`
--   `Illuminate\Broadcasting\PresenceChannel`
-
-#### broadcastAs
-
-By default, Laravel will broadcast the event using the event's class name. However, you may customize the broadcast name.
+The `ShouldBroadcast` interface requires the event to define a `broadcastOn` method. The method return a channel or array of channels that the event should broadcast on.
 
 ```php
-/**
- * The event's broadcast name.
- */
-public function broadcastAs()
+use Illuminate\Broadcasting\Channel;
+use Illuminate\Broadcasting\PrivateChannel;
+use Illuminate\Broadcasting\PresenceChannel;
+
+public function broadcastOn(): Channel|array
 {
-    return 'EventName';
+    return [
+        new Channel("name.{$this->prop}"),
+        new PrivateChannel("name.{$this->prop}"),
+        new PresenceChannel("name.{$this->prop}"),
+    ];
 }
 ```
 
@@ -309,44 +306,56 @@ public function broadcastAs()
 When an event is broadcast, all of its `public` properties are automatically serialized and broadcast as the event's payload.
 
 ```php
-/**
- * Get the data to broadcast.
- */
 public function broadcastWith()
 {
-    return $data;
+    // Get the data to broadcast.
+    return [
+        'id' => $this->message->id,
+        'content' => $this->message->content,
+        'created_at' => $this->message->created_at,
+        'user_id' => $this->message->user_id,
+        'target_user_id' => $this->message->target_user_id,
+        'user' => [
+            'id' => $this->message->user->id,
+            'name' => $this->message->user->name,
+        ],
+    ];
+}
+```
+
+#### broadcastAs
+
+```php
+public function broadcastAs()
+{
+    // By default: App\Events\EventFullyQualifiedClassName
+    return 'CustomEventName';
 }
 ```
 
 #### broadcastWhen
 
-Sometimes you want to broadcast your event only if a given condition is true.
-
 ```php
-/**
- * Determine if this event should broadcast.
- */
 public function broadcastWhen()
 {
+    // Determine if this event should broadcast.
     return true;
 }
 ```
 
-#### broadcastQueue
+#### Broadcast queue
 
-Once the event has been fired, a queued job will automatically broadcast the event using your specified broadcast driver.
-
-By default, each broadcast event is placed on the default queue for the default queue connection specified in `config\queue.php` file.
-
-...
+By default, each broadcast event is placed on the default queue for the default queue connection specified in `config\queue.php` file [see ...](https://laravel.com/docs/9.x/broadcasting#broadcast-queue)
 
 #### afterCommit
 
-...
+Dispatch event after all open database transactions have been committed.
+
+```php
+public $afterCommit = true;
+```
 
 ### Authorization
-
-Authorizing that the currently authenticated user can actually listen on the **private channel** is accomplished by, making an HTTP request to your Laravel application with the channel name, and allowing your application to determine if the user can listen on that channel.
 
 When using `Echo`, the HTTP request to **authorize subscriptions** to **private channels** will be made automatically; however, you do need to define the proper routes to respond to these requests.
 
@@ -385,6 +394,7 @@ php artisan make:channel ChannelNameChannel
 
 ```php
 use App\Broadcasting\OrderChannel;
+use App\Channels\ChannelNameChannel;
 
 Broadcast::channel('name.{param}', ChannelNameChannel::class);
 ```
@@ -478,6 +488,13 @@ Echo.private(`chat.${roomId}`).whisper("typing", {
 // Listen
 Echo.private(`chat.${roomId}`).listenForWhisper("typing", (e) => {
     console.log(e.name);
+});
+```
+
+```js
+// Notifications
+Echo.private(`App.Models.User.${userId}`).notification((notification) => {
+    console.log(notification.type);
 });
 ```
 
