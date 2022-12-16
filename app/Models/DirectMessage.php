@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Exception;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Database\Eloquent\BroadcastableModelEventOccurred;
 use Illuminate\Database\Eloquent\BroadcastsEvents;
@@ -16,6 +17,10 @@ class DirectMessage extends Model
 
     protected $guarded = ['id'];
 
+    // --------------------------------------------
+    // Relations
+    // --------------------------------------------
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -26,6 +31,10 @@ class DirectMessage extends Model
         return $this->belongsTo(User::class, 'target_user_id');
     }
 
+    // --------------------------------------------
+    // Scopes
+    // --------------------------------------------
+
     public function scopeWhereCorrespondent(Builder $query, int $target_user_id): void
     {
         $query->where(function ($q) use ($target_user_id) {
@@ -34,6 +43,32 @@ class DirectMessage extends Model
             ->orWhere(function ($q) use ($target_user_id) {
                 $q->where('user_id', $target_user_id)->where('target_user_id', auth()->id());
             });
+    }
+
+    // --------------------------------------------
+    // Methods
+    // --------------------------------------------
+
+    /**
+     * @throws Exception
+     */
+    public function resource(): array
+    {
+        if (! $this->relationLoaded('user')) {
+            throw new Exception('Load user relation before calling this');
+        }
+
+        return [
+            'id' => $this->id,
+            'content' => $this->content,
+            'created_at' => $this->created_at,
+            'user_id' => $this->user_id,
+            'target_user_id' => $this->target_user_id,
+            'user' => [
+                'id' => $this->user->id,
+                'name' => $this->user->name,
+            ],
+        ];
     }
 
     // --------------------------------------------
@@ -59,8 +94,9 @@ class DirectMessage extends Model
     public function broadcastWith($event)
     {
         $this->load('user');
+
         return match ($event) {
-            default => $this->toArray(),
+            default => $this->resource(),
         };
     }
 

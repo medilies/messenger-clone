@@ -14,7 +14,7 @@ class DirectMessageController extends Controller
      */
     public function new(Request $request)
     {
-        return (new MessageService($request))->store()->resource();
+        return (new MessageService($request))->store()->getMessageModel()->resource();
     }
 
     public function list(User $target_user)

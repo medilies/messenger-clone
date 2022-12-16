@@ -2,11 +2,9 @@
 
 namespace App\Services;
 
-use App\Events\DirectMessageEvent;
 use App\Models\DirectMessage;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 
 class MessageService
 {
@@ -21,6 +19,11 @@ class MessageService
         }
 
         $this->message = $this->validate($data);
+    }
+
+    public function getMessageModel(): DirectMessage
+    {
+        return $this->messageModel;
     }
 
     public function validate(array $data): array
@@ -39,25 +42,6 @@ class MessageService
         $this->messageModel->setRelation('user', auth()->user());
 
         return $this;
-    }
-
-    public function resource(): Collection
-    {
-        if (empty($this->messageModel)) {
-            throw new Exception("The message entity isn't stored yet");
-        }
-
-        return collect([
-            'id' => $this->messageModel->id,
-            'content' => $this->messageModel->content,
-            'created_at' => $this->messageModel->created_at,
-            'user_id' => $this->messageModel->user_id,
-            'target_user_id' => $this->messageModel->target_user_id,
-            'user' => [
-                'id' => $this->messageModel->user->id,
-                'name' => $this->messageModel->user->name,
-            ],
-        ]);
     }
 
     protected function getRules(): array
