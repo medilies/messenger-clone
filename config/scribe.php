@@ -73,8 +73,8 @@ return [
                  * Additional headers to be added to the example requests
                  */
                 'headers' => [
-                    'Content-Type' => 'application/json',
-                    'Accept' => 'application/json',
+                    // 'Content-Type' => 'application/json',
+                    // 'Accept' => 'application/json',
                 ],
 
                 /*
@@ -185,7 +185,7 @@ return [
          * Add a Try It Out button to your endpoints so consumers can test endpoints right from their browser.
          * Don't forget to enable CORS headers for your endpoints.
          */
-        'enabled' => true,
+        'enabled' => false,
 
         /**
          * The base URL for the API tester to use (for example, you can set this to your staging URL).
@@ -253,13 +253,12 @@ return [
     /*
      * Text to place in the "Introduction" section, right after the `description`. Markdown and HTML are supported.
      */
-    'intro_text' => <<<INTRO
+    'intro_text' => <<<'INTRO'
 This documentation aims to provide all the information you need to work with our API.
 
 <aside>As you scroll, you'll see code examples for working with the API in different programming languages in the dark area to the right (or as part of the content on mobile).
 You can switch the language used with the tabs at the top right (or from the nav menu at the top left on mobile).</aside>
-INTRO
-    ,
+INTRO,
 
     /*
      * Example requests for each endpoint will be shown in each of these languages.
@@ -268,7 +267,7 @@ INTRO
      *
      */
     'example_languages' => [
-        'bash',
+        // 'bash',
         'javascript',
     ],
 
@@ -438,5 +437,5 @@ INTRO
      * Tell Scribe which connections should be transacted here.
      * If you only use one db connection, you can leave this as is.
      */
-    'database_connections_to_transact' => [config('database.default')]
+    'database_connections_to_transact' => [config('database.default')],
 ];
