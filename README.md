@@ -367,12 +367,14 @@ Register channel authorization callbacks in `routes/channels.php`.
 use App\Models\User;
 use Illuminate\Support\Facades\Broadcast;
 
+// Private
 Broadcast::channel(
     'name.{param}',
     fn (User $user, bool|int|string|float $param): bool => auth()->check(), // true = authorized
     ['guards' => ['web', 'admin']] // Optional custom guards
 );
 
+// Presence
 Broadcast::channel(
     'chat.{roomId}',
     function ($user, $roomId) {
@@ -386,7 +388,7 @@ Broadcast::channel(
 
 All authorization callbacks receive the currently authenticated user as their first argument and any additional wildcard parameters as their subsequent arguments.
 
-You can the authorization logic from the callback to a class.
+You can move the authorization logic from the callback to a class.
 
 ```shell
 php artisan make:channel ChannelNameChannel
@@ -398,6 +400,59 @@ use App\Channels\ChannelNameChannel;
 
 Broadcast::channel('name.{param}', ChannelNameChannel::class);
 ```
+
+### Model broadcasting
+
+```php
+public function broadcastOn($event)
+{
+    return match ($event) {
+        'created' => [new PrivateChannel("direct-messages.{$this->user->id}")],
+        default => [$this, new PrivateChannel($this->user)],
+    };
+}
+```
+
+```php
+public function broadcastAs($event)
+{
+    return match ($event) {
+        'created' => 'new.message',
+        default => null, // default convention: DirectMessageUpdated, DirectMessageDeleted ...
+    };
+}
+```
+
+```php
+public function broadcastWith($event)
+{
+    return match ($event) {
+        'created' => [/* Payload */],
+        default => $this->toArray(),
+    };
+}
+```
+
+```php
+protected function newBroadcastableEvent($event)
+{
+    return (new BroadcastableModelEventOccurred(
+        $this, $event
+    ))->dontBroadcastToCurrentUser();
+}
+```
+
+```php
+// Model broadcastChannel conventional name
+
+App\Models\User::find(1)->broadcastChannel();
+// "App.Models.User.1"
+
+App\Models\DirectMessage::find(2)->broadcastChannel();
+// "App.Models.DirectMessage.2"
+```
+
+### Notifications
 
 ### Dispatching
 
@@ -475,6 +530,12 @@ Echo.join(`chat.${roomId}`)
     .listen(/* ... */)
     .listen(/* ... */)
     .listen(/* ... */);
+```
+
+```js
+Echo.private(`App.Models.User.${userId}`).listen(".PostUpdated", (e) => {
+    console.log(e.model);
+});
 ```
 
 ```js
