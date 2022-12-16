@@ -55,7 +55,23 @@ To be more exhaustive, this demo will be using `sanctum` for authenticating API 
 
 ## Database
 
-Supporting group events has a huge impact on the database design!
+### Direct messaging only
+
+This a basic approach. To identify conversations of user ID `1` with user ID `2` i
+
+```sql
+select *
+from `direct_messages`
+where
+    (`user_id` = 1 and `target_user_id` = 2) or
+    (`user_id` = 2 and `target_user_id` = 1)
+```
+
+[![db](./direct_messaging_db.png)](https://dbdiagram.io/d/639cc38899cb1f3b55a1eb48)
+
+### Group messaging support
+
+[![db](./group_messaging_db.png)](https://dbdiagram.io/d/5f2bff1608c7880b65c55446)
 
 ## Scaffolding
 
@@ -402,6 +418,8 @@ Broadcast::channel('name.{param}', ChannelNameChannel::class);
 ```
 
 ### Model broadcasting
+
+The `$event` argument can be `created`, `updated`, `deleted`, `trashed`, or `restored`.
 
 ```php
 public function broadcastOn($event)
