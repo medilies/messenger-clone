@@ -31,12 +31,12 @@ const props = defineProps({
 });
 
 const colorClassObject = reactive([
-    authStore.user.id === props.message.user.id
+    authStore.user.id === props.message.user_id
         ? "text-white bg-purple-900"
         : "bg-gray-800 text-gray-50",
 ]);
 
 const alignClassObject = reactive([
-    authStore.user.id === props.message.user.id ? "items-end" : "items-start",
+    authStore.user.id === props.message.user_id ? "items-end" : "items-start",
 ]);
 </script>
