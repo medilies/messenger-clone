@@ -60,13 +60,6 @@ class MessageService
         ]);
     }
 
-    public function broadcast(): static
-    {
-        DirectMessageEvent::broadcast($this->resource())->toOthers();
-
-        return $this;
-    }
-
     protected function getRules(): array
     {
         return [
