@@ -14,12 +14,12 @@ class DirectMessageController extends Controller
      */
     public function new(Request $request)
     {
-        return (new MessageService($request))->store()->broadcast()->resource();
+        return (new MessageService($request))->store()->resource();
     }
 
     public function list(User $target_user)
     {
-        // TODO: fix returned data according to ressource
+        // TODO: fix returned data according to resource
         return DirectMessage::with('user')->whereCorrespondent($target_user->id)->latest('id')->limit(50)->get()->reverse()->values();
     }
 }
