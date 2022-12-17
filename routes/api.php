@@ -22,4 +22,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/conversations/direct/{user}', [UserConversationController::class, 'createDirectConversation'])
         ->name('conversations.direct.create');
+
+    Route::get('/conversations', [UserConversationController::class, 'list'])
+        ->name('conversations.list');
 });

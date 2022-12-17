@@ -8,6 +8,14 @@ use Illuminate\Database\Eloquent\Collection;
 
 class UserConversationController extends Controller
 {
+    public function list(): array
+    {
+        /** @var User */
+        $current_user = auth()->user();
+
+        return $current_user->conversations()->latest('id')->get()->toArray();
+    }
+
     public function createDirectConversation(User $user)
     {
         /** @var Conversation */

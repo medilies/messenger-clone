@@ -19,6 +19,8 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
 
             $table->foreignId('conversation_id')->constrained();
+
+            $table->unique(['conversation_id', 'user_id']);
         });
     }
 
