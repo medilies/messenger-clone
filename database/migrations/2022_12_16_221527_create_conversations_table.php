@@ -17,11 +17,11 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
 
-            $table->string('name');
+            $table->enum('type', ['direct', 'group']);
 
-            $table->string('type');
+            $table->string('name')->nullable();
 
-            $table->string('visibility');
+            $table->string('visibility')->nullable();
         });
     }
 

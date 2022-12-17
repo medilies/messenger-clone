@@ -10,6 +10,8 @@ class Conversation extends Model
 {
     use HasFactory;
 
+    protected $guarded = ['id'];
+
     // --------------------------------------------
     // Relations
     // --------------------------------------------
