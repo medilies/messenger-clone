@@ -22,8 +22,8 @@ class UserConversationControllerTest extends TestCase
         $this->post(route('conversations.direct.create', ['user' => $user]))
             ->assertCreated();
 
-        $this->assertDatabaseCount('conversations', 1)
-            ->assertDatabaseHas('conversations', ['type' => 'direct']);
+        $this->assertDatabaseCount(tableNameFromModel(Conversation::class), 1)
+            ->assertDatabaseHas(tableNameFromModel(Conversation::class), ['type' => 'direct']);
 
         $this->assertDatabaseCount('conversation_user', 2)
             ->assertDatabaseHas('conversation_user', ['user_id' => auth()->id()])
