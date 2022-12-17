@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class DirectMessage extends Model
+class Message extends Model
 {
     use BroadcastsEvents, HasFactory;
 
@@ -26,9 +26,9 @@ class DirectMessage extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function targetUser(): BelongsTo
+    public function conversation(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'target_user_id');
+        return $this->belongsTo(Conversation::class);
     }
 
     // --------------------------------------------
