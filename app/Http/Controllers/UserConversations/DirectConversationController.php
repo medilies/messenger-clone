@@ -8,7 +8,7 @@ use App\Services\Conversations\CreateConversationService;
 
 class DirectConversationController extends Controller
 {
-    public function start(CreateConversationService $createConversationService, User $user)
+    public function getConversation(CreateConversationService $createConversationService, User $user)
     {
         return $createConversationService->create(auth()->user(), $user);
     }

@@ -21,8 +21,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/messages', [DirectMessageController::class, 'new']);
     Route::get('/messages/{target_user}', [DirectMessageController::class, 'list']);
 
-    Route::post('/conversations/direct/{user}', [DirectConversationController::class, 'start'])
-        ->name('conversations.direct.start');
+    Route::get('/conversations/direct/{user}', [DirectConversationController::class, 'getConversation'])
+        ->name('conversations.direct.get');
 
     Route::get('/conversations', [ConversationController::class, 'list'])
         ->name('conversations.list');

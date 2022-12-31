@@ -14,13 +14,13 @@ class DirectConversationControllerTest extends TestCase
     /**
      * @test
      */
-    public function start()
+    public function getConversation()
     {
         $this->authenticate();
 
         $user = User::factory()->create();
 
-        $this->post(route('conversations.direct.start', ['user' => $user]))
+        $this->get(route('conversations.direct.get', ['user' => $user]))
             ->assertCreated();
 
         $this->assertDatabaseCount(tableNameFromModel(Conversation::class), 1)
