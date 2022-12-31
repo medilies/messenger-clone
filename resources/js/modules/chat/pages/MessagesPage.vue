@@ -1,9 +1,5 @@
 <template>
     <div class="flex h-full">
-        <UsersList
-            class="h-full w-48 bg-slate-900 border border-gray-600 overflow-y-auto"
-        />
-
         <router-view class="flex-1 border border-gray-600" />
     </div>
 </template>

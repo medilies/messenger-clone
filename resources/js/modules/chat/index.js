@@ -9,11 +9,13 @@ import UsersList from "@/modules/chat/Components/UsersList.vue";
 import UsersListItem from "@/modules/chat/Components/UsersListItem.vue";
 
 import { useChatStore } from "@/modules/chat/stores/ChatStore";
+import { useConversationStore } from "@/modules/chat/stores/ConversationStore";
 
 export {
     MessagesPage,
     chatRoutes,
     useChatStore,
+    useConversationStore,
     ChatBubble,
     MessageBox,
     TheChat,
