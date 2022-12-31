@@ -19,7 +19,7 @@ return new class extends Migration
 
             $table->enum('type', ['direct', 'group']);
 
-            $table->string('name')->unique()->nullable();
+            $table->string('name')->nullable();
 
             $table->string('visibility')->nullable();
         });
