@@ -11,25 +11,10 @@
 <script setup>
 import { UsersList } from "@/modules/chat";
 
-import { useUsersStore } from "@/Stores/UsersStore";
 import { useChatStore } from "@/modules/chat";
 
 import { authenticatedGet } from "@/modules/auth/Services/AuthenticatedRequest";
 import { useAuthStore } from "@/modules/auth/store/AuthStore";
-
-/*
-    Users
-*/
-
-const usersStore = useUsersStore();
-
-if (usersStore.users === null) {
-    authenticatedGet("/api/users").then((response) => {
-        // console.log(response.data);
-
-        usersStore.users = response.data;
-    });
-}
 
 /*
     Chat
