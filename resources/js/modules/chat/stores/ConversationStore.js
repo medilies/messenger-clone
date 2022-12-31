@@ -9,7 +9,7 @@ export const useConversationStore = defineStore("conversation", () => {
         authenticatedGet("/api/conversations").then((response) => {
             console.log(response.data);
 
-            conversations.value = response.data;
+            conversations.value = response.data.data;
         });
     }
 

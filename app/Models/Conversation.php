@@ -23,6 +23,11 @@ class Conversation extends Model
         return $this->belongsToMany(User::class)->withTimestamps();
     }
 
+    public function otherUsers(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class)->whereNot('user_id', auth()->id())->withTimestamps();
+    }
+
     public function messages()
     {
         return $this->hasMany(Message::class);
