@@ -19,4 +19,9 @@ class ConversationController extends Controller
                 ->load('otherUsers')
         );
     }
+
+    public function getConversationMessages(Conversation $conversation)
+    {
+        return $conversation->messages;
+    }
 }

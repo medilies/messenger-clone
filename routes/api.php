@@ -26,4 +26,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/conversations', [ConversationController::class, 'list'])
         ->name('conversations.list');
+    Route::get('/conversations/{conversation}/messages', [ConversationController::class, 'getConversationMessages'])
+        ->name('conversations.messages.get');
 });
