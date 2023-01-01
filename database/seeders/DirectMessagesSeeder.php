@@ -20,7 +20,6 @@ class DirectMessagesSeeder extends Seeder
         for ($i = 0; $i < $count; $i++) {
             $users = [
                 'user_id' => $faker->randomElement($users_ids),
-                'target_user_id' => $faker->randomElement($users_ids),
             ];
 
             $direct_messages[] = DirectMessage::factory($users)->make()->toArray();

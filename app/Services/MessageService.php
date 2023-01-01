@@ -2,26 +2,29 @@
 
 namespace App\Services;
 
-use App\Models\DirectMessage;
+use App\Models\Conversation;
+use App\Models\Message;
 use Exception;
 use Illuminate\Http\Request;
 
 class MessageService
 {
-    protected array $message;
+    protected readonly array $validated_message;
 
-    protected ?DirectMessage $messageModel = null;
+    protected ?Message $messageModel = null;
 
-    public function __construct(Request|array $data)
-    {
+    public function __construct(
+        Request|array $data,
+        protected Conversation $conversation
+    ) {
         if ($data instanceof Request) {
             $data = $data->all();
         }
 
-        $this->message = $this->validate($data);
+        $this->validated_message = $this->validate($data);
     }
 
-    public function getMessageModel(): DirectMessage
+    public function getMessageModel(): Message
     {
         return $this->messageModel;
     }
@@ -37,7 +40,7 @@ class MessageService
             throw new Exception('The message entity is already stored');
         }
 
-        $this->messageModel = DirectMessage::create($this->message + ['user_id' => auth()->id()]);
+        $this->messageModel = $this->conversation->messages()->create($this->validated_message + ['user_id' => auth()->id()]);
 
         $this->messageModel->setRelation('user', auth()->user());
 
@@ -48,7 +51,6 @@ class MessageService
     {
         return [
             'content' => ['required', 'string'],
-            'target_user_id' => ['integer'],
         ];
     }
 }

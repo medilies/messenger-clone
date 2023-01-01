@@ -6,7 +6,6 @@ use Exception;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Database\Eloquent\BroadcastableModelEventOccurred;
 use Illuminate\Database\Eloquent\BroadcastsEvents;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -35,16 +34,6 @@ class Message extends Model
     // Scopes
     // --------------------------------------------
 
-    public function scopeWhereCorrespondent(Builder $query, int $target_user_id): void
-    {
-        $query->where(function ($q) use ($target_user_id) {
-            $q->where('user_id', auth()->id())->where('target_user_id', $target_user_id);
-        })
-            ->orWhere(function ($q) use ($target_user_id) {
-                $q->where('user_id', $target_user_id)->where('target_user_id', auth()->id());
-            });
-    }
-
     // --------------------------------------------
     // Methods
     // --------------------------------------------
@@ -63,7 +52,6 @@ class Message extends Model
             'content' => $this->content,
             'created_at' => $this->created_at,
             'user_id' => $this->user_id,
-            'target_user_id' => $this->target_user_id,
             'user' => [
                 'id' => $this->user->id,
                 'name' => $this->user->name,

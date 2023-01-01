@@ -16,7 +16,6 @@ return new class extends Migration
 
             $table->foreignId('user_id')->constrained();
 
-            $table->unsignedBigInteger('target_user_id');
             $table->foreignId('conversation_id')->constrained();
         });
     }
