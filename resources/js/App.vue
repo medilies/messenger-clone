@@ -26,9 +26,30 @@
 </template>
 
 <script setup>
-import { useAuthStore } from "./modules/auth/store/AuthStore";
-
 import NavItem from "./Components/NavItem.vue";
 
+import { useChatStore } from "@/modules/chat";
+import { useAuthStore } from "@/modules/auth/store/AuthStore";
+/*
+    Chat
+*/
+
+const chatStore = useChatStore();
+
 const authStore = useAuthStore();
+
+if (authStore.user) {
+    Echo.private(`direct-messages.${authStore.user.id}`).listen(
+        "MessageEvent",
+        (message) => {
+            // console.log(message);
+
+            chatStore.storeNewMessage(message);
+        }
+    );
+
+    Echo.private("chat").listenForWhisper("typing", (e) => {
+        console.log("typing...");
+    });
+}
 </script>

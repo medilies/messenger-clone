@@ -25,11 +25,13 @@ class ConversationController extends Controller
 
     public function getConversationMessages(Conversation $conversation)
     {
-        return $conversation->messages;
+        return $conversation->messages->load('user');
     }
 
     public function newConversationMessage(Request $request, Conversation $conversation): array
     {
-        return (new MessageService($request, $conversation))->store()->getMessageModel()->resource();
+        $conversation->load('users');
+
+        return (new MessageService($request, $conversation))->store()->broadcast()->getMessageModel()->toArray();
     }
 }

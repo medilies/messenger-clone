@@ -4,13 +4,13 @@
             v-for="conversation in conversationsStore.conversations"
             key="conversation.id"
         >
-            {{ conversation.id }}
+            <ConversationDirectListItem :conversation="conversation" />
         </div>
     </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import ConversationDirectListItem from "@/modules/chat/Components/ConversationDirectListItem.vue";
 
 import { useConversationStore } from "@/modules/chat";
 

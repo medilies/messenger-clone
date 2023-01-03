@@ -19,8 +19,11 @@ const authenticatedGet = (path, additionalHeaders = {}) => {
     });
 };
 
-const sendMessage = (message) => {
-    return authenticatedPost("/api/messages", message);
+const sendMessage = (message, conversationId) => {
+    return authenticatedPost(
+        `/api/conversations/${conversationId}/messages`,
+        message
+    );
 };
 
 export { authenticatedPost, authenticatedGet, sendMessage };
