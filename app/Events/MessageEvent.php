@@ -14,7 +14,7 @@ class MessageEvent implements ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public function __construct(
-        protected Message $message
+        protected array $message
     ) {
     }
 
@@ -25,11 +25,14 @@ class MessageEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel("chat.{$this->message->conversation->otherUsers->first()->id}");
+        return array_map(
+            fn ($user) => new PrivateChannel("chat.{$user['id']}"),
+            $this->message['conversation']['other_users']
+        );
     }
 
     public function broadcastWith(): array
     {
-        return $this->message->toArray();
+        return $this->message;
     }
 }

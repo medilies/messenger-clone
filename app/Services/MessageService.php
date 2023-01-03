@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Events\MessageEvent;
+use App\Http\Resources\NewMessageResource;
 use App\Models\Conversation;
 use App\Models\Message;
 use Exception;
@@ -15,15 +16,24 @@ class MessageService
 
     protected ?Message $messageModel = null;
 
-    public function __construct(
-        Request|array $data,
-        protected Conversation $conversation
-    ) {
+    protected Conversation $conversation;
+
+    public function consume(Request|array $data, Conversation $conversation): array
+    {
+        $this->conversation = $conversation;
+
         if ($data instanceof Request) {
             $data = $data->all();
         }
 
         $this->validated_message = collect($this->validate($data));
+
+        // ==================
+
+        return $this
+            ->store()
+            ->broadcast()
+            ->getResource();
     }
 
     public function getMessageModel(): Message
@@ -57,7 +67,7 @@ class MessageService
 
     public function broadcast(): static
     {
-        MessageEvent::broadcast($this->messageModel);
+        MessageEvent::broadcast($this->getResource());
 
         return $this;
     }
@@ -67,5 +77,10 @@ class MessageService
         return [
             'content' => ['required', 'string'],
         ];
+    }
+
+    public function getResource()
+    {
+        return json_decode((new NewMessageResource($this->messageModel))->toJson(), true);
     }
 }

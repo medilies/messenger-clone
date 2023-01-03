@@ -28,10 +28,10 @@ class ConversationController extends Controller
         return $conversation->messages->load('user');
     }
 
-    public function newConversationMessage(Request $request, Conversation $conversation): array
+    public function newConversationMessage(Request $request, Conversation $conversation, MessageService $message_service): array
     {
         $conversation->load('users');
 
-        return (new MessageService($request, $conversation))->store()->broadcast()->getMessageModel()->toArray();
+        return $message_service->consume($request, $conversation);
     }
 }
