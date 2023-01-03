@@ -12,6 +12,6 @@ class DirectConversationController extends Controller
         ConversationRepository $conversation_repository,
         User $user
     ) {
-        return $conversation_repository->findOrcreateDirectConversation(auth()->user(), $user);
+        return $conversation_repository->findOrCreateDirectConversation(auth()->user(), $user);
     }
 }

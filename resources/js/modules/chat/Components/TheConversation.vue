@@ -27,7 +27,7 @@ async function getOldMessage(conversation_id) {
         `/api/conversations/${conversation_id}/messages`
     );
 
-    console.log(response.data);
+    // console.log(response.data);
 
     chatStore.mergeOlderMessages(conversation_id, response.data);
     // TODO: add auto scroll down

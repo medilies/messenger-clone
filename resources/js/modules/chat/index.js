@@ -2,7 +2,7 @@ import chatRoutes from "@/modules/chat/routes";
 
 import MessagesPage from "@/modules/chat/pages/MessagesPage.vue";
 
-import TheChat from "@/modules/chat/Components/TheChat.vue";
+import TheConversation from "@/modules/chat/Components/TheConversation.vue";
 import ChatBubble from "@/modules/chat/Components/MessageBubble.vue";
 import MessageBox from "@/modules/chat/Components/MessageBox.vue";
 import UsersList from "@/modules/chat/Components/UsersList.vue";
@@ -18,7 +18,7 @@ export {
     useConversationStore,
     ChatBubble,
     MessageBox,
-    TheChat,
+    TheConversation,
     UsersList,
     UsersListItem,
 };

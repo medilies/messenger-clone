@@ -16,7 +16,6 @@ class MessageEvent implements ShouldBroadcast
     public function __construct(
         protected Message $message
     ) {
-        //
     }
 
     /**
@@ -26,10 +25,9 @@ class MessageEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel("direct-messages.{$this->message->conversation->otherUsers->first()->id}");
+        return new PrivateChannel("chat.{$this->message->conversation->otherUsers->first()->id}");
     }
 
-    /** Get the data to broadcast. */
     public function broadcastWith(): array
     {
         return $this->message->toArray();

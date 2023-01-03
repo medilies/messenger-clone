@@ -42,7 +42,7 @@ class ConversationRepository
         return $conversation;
     }
 
-    public function findOrcreateDirectConversation(int|User $user_1, int|User $user_2): Conversation
+    public function findOrCreateDirectConversation(int|User $user_1, int|User $user_2): Conversation
     {
         $conversation = $this->findDirectConversation($user_1, $user_2);
 

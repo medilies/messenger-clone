@@ -14,8 +14,8 @@ use Illuminate\Support\Facades\Broadcast;
 |
 */
 
-Broadcast::channel('direct-messages.{target_user_id}', function ($user, $target_user_id): bool {
+Broadcast::channel('chat.{target_user_id}', function ($user, $target_user_id): bool {
     return $user->id === User::find($target_user_id)->id;
 });
 
-Broadcast::channel('chat', fn ($user): bool => auth()->check());
+// Broadcast::channel('chat', fn ($user): bool => auth()->check());

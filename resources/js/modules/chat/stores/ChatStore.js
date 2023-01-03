@@ -30,6 +30,8 @@ export const useChatStore = defineStore("chat", () => {
 
     // TODO: optimize this logic
     function mergeOlderMessages(chatId, oldMessages) {
+        chatId = parseInt(chatId);
+
         if (!messages.value[chatId]) {
             messages.value[chatId] = [];
         }

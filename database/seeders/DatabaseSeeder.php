@@ -25,9 +25,5 @@ class DatabaseSeeder extends Seeder
         $other_users = User::factory(30)->create();
 
         $users_ids = range(1, $other_users->count() + 2);
-
-        // $this->call(DirectMessagesSeeder::class, false, ['users_ids' => $users_ids]);
-
-        // $this->call(DirectMessagesSeeder::class, false, ['users_ids' => [$first_user->id, $second_user->id], 'count' => 50]);
     }
 }
