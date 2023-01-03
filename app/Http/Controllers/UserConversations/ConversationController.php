@@ -17,7 +17,7 @@ class ConversationController extends Controller
         $current_user = auth()->user();
 
         return UserConversationResource::collection(
-            $current_user->conversations()->latest('id')
+            $current_user->conversations()->latest('updated_at')
                 ->get()
                 ->load('otherUsers')
         );

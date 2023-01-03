@@ -50,6 +50,8 @@ class MessageService
         $this->messageModel->load('user');
         $this->messageModel->load('conversation.otherUsers');
 
+        $this->messageModel->conversation->touch();
+
         return $this;
     }
 
