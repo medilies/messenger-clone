@@ -34,6 +34,7 @@ class DatabaseSeeder extends Seeder
         foreach ($other_users as $user) {
             $conversation = $conversation_repo->createDirectConversation($first_user, $user);
 
+            // TODO: use new message service
             Message::factory()->for($conversation)->for($user)->count(2)->create();
         }
     }

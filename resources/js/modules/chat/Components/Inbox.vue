@@ -1,5 +1,5 @@
 <template>
-    <div class="text-white">
+    <div class="flex flex-col gap-1 p-1 text-white overflow-y-auto">
         <div
             v-for="conversation in conversationsStore.conversations"
             key="conversation.id"
