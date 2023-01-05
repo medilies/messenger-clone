@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\UserConversations;
+namespace App\Modules\Chat\Controllers\UserConversations;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Repositories\ConversationRepository;
+use App\Modules\Chat\Repositories\ConversationRepository;
 
-class DirectConversationController extends Controller
+class DirectConversationController
 {
     public function getConversation(
         ConversationRepository $conversation_repository,

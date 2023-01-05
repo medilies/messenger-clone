@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Modules\Chat\Repositories;
 
-use App\Models\Conversation;
 use App\Models\User;
+use App\Modules\Chat\Models\Conversation;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 

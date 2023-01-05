@@ -2,8 +2,8 @@
 
 namespace Tests\Feature\Http\Controllers;
 
-use App\Models\Conversation;
 use App\Models\User;
+use App\Modules\Chat\Models\Conversation;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 

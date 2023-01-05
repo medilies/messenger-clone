@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Models;
+namespace App\Modules\Chat\Models;
 
+use App\Models\User;
+use App\Modules\Chat\Factories\ConversationFactory;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -13,6 +15,11 @@ class Conversation extends Model
     use HasFactory;
 
     protected $guarded = ['id'];
+
+    protected static function newFactory()
+    {
+        return ConversationFactory::new();
+    }
 
     // --------------------------------------------
     // Relations

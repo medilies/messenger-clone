@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\UserConversations;
+namespace App\Modules\Chat\Controllers\UserConversations;
 
-use App\Http\Controllers\Controller;
-use App\Http\Resources\UserConversationResource;
-use App\Models\Conversation;
 use App\Models\User;
-use App\Services\MessageService;
+use App\Modules\Chat\Models\Conversation;
+use App\Modules\Chat\Resources\UserConversationResource;
+use App\Modules\Chat\Services\MessageService;
 use Illuminate\Http\Request;
 
-class ConversationController extends Controller
+class ConversationController
 {
     public function list()
     {

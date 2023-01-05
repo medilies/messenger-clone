@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Events;
+namespace App\Modules\Chat\Events;
 
-use App\Models\Message;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
@@ -34,5 +33,10 @@ class MessageEvent implements ShouldBroadcast
     public function broadcastWith(): array
     {
         return $this->message;
+    }
+
+    public function broadcastAs(): string
+    {
+        return str_replace(__NAMESPACE__, 'App\Events', static::class);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Modules\Chat\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 

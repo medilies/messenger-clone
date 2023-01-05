@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Services;
+namespace App\Modules\Chat\Services;
 
-use App\Events\MessageEvent;
-use App\Http\Resources\NewMessageResource;
-use App\Models\Conversation;
-use App\Models\Message;
+use App\Modules\Chat\Events\MessageEvent;
+use App\Modules\Chat\Models\Conversation;
+use App\Modules\Chat\Models\Message;
+use App\Modules\Chat\Resources\NewMessageResource;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
