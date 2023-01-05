@@ -16,29 +16,31 @@ const chatStore = useChatStore();
 
 const route = useRoute();
 
-async function getOldMessage(direct_messages_target_user_id) {
-    direct_messages_target_user_id = parseInt(direct_messages_target_user_id);
+async function getOldMessage(conversation_id) {
+    conversation_id = parseInt(conversation_id);
 
-    if (isNaN(direct_messages_target_user_id)) {
+    if (isNaN(conversation_id)) {
         return;
     }
 
     const response = await authenticatedGet(
-        `/api/messages/${direct_messages_target_user_id}`
+        `/api/conversations/${conversation_id}/messages`
     );
 
-    chatStore.mergeOlderMessages(direct_messages_target_user_id, response.data);
+    // console.log(response.data);
+
+    chatStore.mergeOlderMessages(conversation_id, response.data);
     // TODO: add auto scroll down
 }
 
 // TODO: optimize this logic of looking for older messages when less than 50
 if (chatStore.getCurrentChatMessages.length < 50) {
-    getOldMessage(route.params.direct_messages_target_user_id);
+    getOldMessage(route.params.conversation_id);
 }
 
 watch(route, async (oldRoute, newRoute) => {
     if (chatStore.getCurrentChatMessages.length < 50) {
-        getOldMessage(newRoute.params.direct_messages_target_user_id);
+        getOldMessage(newRoute.params.conversation_id);
     }
 });
 </script>

@@ -26,7 +26,7 @@ const route = useRoute();
 //
 
 function typing() {
-    Echo.private("chat").whisper("typing", { msg: message.value });
+    // Echo.private("chat").whisper("typing", { msg: message.value });
 }
 
 //
@@ -40,14 +40,15 @@ function send() {
 
     const messageData = {
         content: message.value,
-        target_user_id: parseInt(route.params.direct_messages_target_user_id),
     };
 
-    sendMessage(messageData).then((response) => {
-        // console.log(response.data);
+    sendMessage(messageData, parseInt(route.params.conversation_id)).then(
+        (response) => {
+            console.log(response.data);
 
-        chatStore.storeNewMessage(response.data);
-    });
+            chatStore.storeNewMessage(response.data);
+        }
+    );
     // TODO: catch
 
     message.value = "";

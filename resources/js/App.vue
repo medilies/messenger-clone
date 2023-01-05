@@ -6,9 +6,7 @@
             <div v-if="authStore.isAuthenticated">
                 <div class="flex gap-4 justify-center h-full">
                     <NavItem :route="{ name: 'home' }"> Home </NavItem>
-                    <NavItem :route="{ name: 'messages.inbox' }">
-                        Inbox
-                    </NavItem>
+                    <NavItem :route="{ name: 'chat.inbox' }"> Inbox </NavItem>
                 </div>
             </div>
             <div v-else class="h-full">
@@ -26,9 +24,30 @@
 </template>
 
 <script setup>
-import { useAuthStore } from "./modules/auth/store/AuthStore";
-
 import NavItem from "./Components/NavItem.vue";
 
+import { useChatStore } from "@/modules/chat";
+import { useAuthStore } from "@/modules/auth/store/AuthStore";
+/*
+    Chat
+*/
+
+const chatStore = useChatStore();
+
 const authStore = useAuthStore();
+
+if (authStore.user) {
+    Echo.private(`chat.${authStore.user.id}`).listen(
+        "MessageEvent",
+        (message) => {
+            // console.log(message);
+
+            chatStore.storeNewMessage(message);
+        }
+    );
+
+    // Echo.private("chat").listenForWhisper("typing", (e) => {
+    //     console.log("typing...");
+    // });
+}
 </script>

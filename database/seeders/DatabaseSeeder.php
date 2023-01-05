@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Message;
 use App\Models\User;
+use App\Repositories\ConversationRepository;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -26,8 +28,14 @@ class DatabaseSeeder extends Seeder
 
         $users_ids = range(1, $other_users->count() + 2);
 
-        $this->call(DirectMessagesSeeder::class, false, ['users_ids' => $users_ids]);
+        /** @var ConversationRepository */
+        $conversation_repo = app()->make(ConversationRepository::class);
 
-        $this->call(DirectMessagesSeeder::class, false, ['users_ids' => [$first_user->id, $second_user->id], 'count' => 50]);
+        foreach ($other_users as $user) {
+            $conversation = $conversation_repo->createDirectConversation($first_user, $user);
+
+            // TODO: use new message service
+            Message::factory()->for($conversation)->for($user)->count(2)->create();
+        }
     }
 }

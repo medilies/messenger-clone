@@ -1,28 +1,20 @@
 <template>
     <RouterLink
         :to="{
-            name: '',
-            params: {},
+            name: 'chat.conversation',
+            params: { conversation_id: props.conversation.id },
         }"
         class="w-full block hover:text-white rounded-md p-1 text-left text-sm truncate cursor-pointer text-blue-300 bg-blue-900"
     >
-        {{ user.name }}
+        {{ conversation.other_users[0].name }}
     </RouterLink>
 </template>
 
 <script setup>
 const props = defineProps({
-    user: {
+    conversation: {
         type: Object,
         required: true,
     },
 });
 </script>
-
-<style lang="css" scoped>
-@import "tailwindcss/components";
-
-.router-link-active {
-    @apply text-white bg-blue-800;
-}
-</style>
