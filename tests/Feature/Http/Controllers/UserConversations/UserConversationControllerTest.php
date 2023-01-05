@@ -19,7 +19,7 @@ class UserConversationControllerTest extends TestCase
     {
         $this->authenticate();
 
-        Conversation::factory()
+        $c = Conversation::factory()
             ->hasAttached(auth()->user())
             ->hasAttached(User::factory())
             ->count(5)
@@ -28,7 +28,7 @@ class UserConversationControllerTest extends TestCase
         $this->get(route('conversations.list'))
             ->assertOk()
             ->assertJson(
-                fn (AssertableJson $json) => $json->has(5)
+                fn (AssertableJson $json) => $json->has('data', 5)
             );
 
         $this->assertDatabaseCount(tableNameFromModel(Conversation::class), 5);
