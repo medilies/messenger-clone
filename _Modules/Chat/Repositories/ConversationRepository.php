@@ -4,28 +4,20 @@ namespace _Modules\Chat\Repositories;
 
 use _Modules\Chat\Models\Conversation;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\DB;
+use Exception;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 
 class ConversationRepository
 {
     public function findDirectConversation(int|User $user_1, int|User $user_2): ?Conversation
     {
-        return Conversation::join('conversation_user', 'conversations.id', '=', 'conversation_user.conversation_id')
-            ->select([
-                'conversations.*',
-                'conversation_user.conversation_id as conversation_id',
-                'conversation_user.user_id as user_id',
-            ])
-            ->addSelect(DB::raw('COUNT(user_id) as count'))
-            ->whereIn('user_id', [
-                $user_1 instanceof User ? $user_1->id : $user_1,
-                $user_2 instanceof User ? $user_2->id : $user_2,
-            ])
-            ->having('count', 2)
-            ->direct()
-            ->groupBy('conversation_id')
-            ->first();
+        $conversation = Conversation::directConversationBetween($user_1, $user_2)->get();
+
+        if ($conversation->count() > 1) {
+            throw new Exception('BROKEN SYSTEM: many direct conversations between two users found');
+        }
+
+        return $conversation->first();
     }
 
     public function createDirectConversation(int|User $initiator_user, int|User $user): Conversation
@@ -37,7 +29,7 @@ class ConversationRepository
 
         $conversation->users()->attach($user);
 
-        $conversation->setRelation('users', new Collection([$user, $initiator_user]));
+        $conversation->setRelation('users', new EloquentCollection([$user, $initiator_user]));
 
         return $conversation;
     }

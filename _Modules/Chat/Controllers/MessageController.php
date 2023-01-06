@@ -1,27 +1,13 @@
 <?php
 
-namespace _Modules\Chat\Controllers\UserConversations;
+namespace _Modules\Chat\Controllers;
 
 use _Modules\Chat\Models\Conversation;
-use _Modules\Chat\Resources\UserConversationResource;
 use _Modules\Chat\Services\MessageService;
-use App\Models\User;
 use Illuminate\Http\Request;
 
-class ConversationController
+class MessageController
 {
-    public function list()
-    {
-        /** @var User */
-        $current_user = auth()->user();
-
-        return UserConversationResource::collection(
-            $current_user->conversations()->latest('updated_at')
-                ->get()
-                ->load('otherUsers')
-        );
-    }
-
     public function getConversationMessages(Conversation $conversation)
     {
         return $conversation->messages->load('user');

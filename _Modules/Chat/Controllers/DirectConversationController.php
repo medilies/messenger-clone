@@ -1,6 +1,6 @@
 <?php
 
-namespace _Modules\Chat\Controllers\UserConversations;
+namespace _Modules\Chat\Controllers;
 
 use _Modules\Chat\Repositories\ConversationRepository;
 use App\Models\User;

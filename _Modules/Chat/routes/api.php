@@ -1,25 +1,20 @@
 <?php
 
-use _Modules\Chat\Controllers\UserConversations\ConversationController;
-use _Modules\Chat\Controllers\UserConversations\DirectConversationController;
+use _Modules\Chat\Controllers\ConversationController;
+use _Modules\Chat\Controllers\DirectConversationController;
+use _Modules\Chat\Controllers\MessageController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-*/
-
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/conversations/direct/{user}', [DirectConversationController::class, 'getConversation'])
-        ->name('conversations.direct.get');
-
     Route::get('/conversations', [ConversationController::class, 'list'])
         ->name('conversations.list');
 
-    Route::post('/conversations/{conversation}/messages', [ConversationController::class, 'newConversationMessage'])
-        ->name('conversations.messages.new');
+    Route::get('/conversations/direct/{user}', [DirectConversationController::class, 'getConversation'])
+        ->name('conversations.direct.get');
 
-    Route::get('/conversations/{conversation}/messages', [ConversationController::class, 'getConversationMessages'])
+    Route::get('/conversations/{conversation}/messages', [MessageController::class, 'getConversationMessages'])
         ->name('conversations.messages.get');
+
+    Route::post('/conversations/{conversation}/messages', [MessageController::class, 'newConversationMessage'])
+        ->name('conversations.messages.new');
 });
