@@ -25,7 +25,11 @@ class ConversationSeeder extends Seeder
             $conversation = $conversation_repo->createDirectConversation($first_user, $user);
 
             // TODO: use new message service
-            Message::factory()->for($conversation)->for($user)->count(2)->create();
+            Message::factory()
+                ->for($conversation)
+                ->for($user)
+                ->count(2)
+                ->create();
         }
     }
 }

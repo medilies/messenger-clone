@@ -28,6 +28,7 @@ import NavItem from "./Components/NavItem.vue";
 
 import { useChatStore } from "@/modules/chat";
 import { useAuthStore } from "@/modules/auth/store/AuthStore";
+
 /*
     Chat
 */

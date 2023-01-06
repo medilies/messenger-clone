@@ -1,0 +1,16 @@
+includes:
+    - ./vendor/nunomaduro/larastan/extension.neon
+parameters:
+    paths:
+        - app
+        - _Modules
+    level: 4
+    ignoreErrors:
+        - '#Access to an undefined property (.*)\\Resources\\(.*)::\$.*#'
+        - '#Access to an undefined property (.*)\\Models(.*)::\$.*#'
+        - '#Property .* does not exist in (.*)\\Models\\(.*) model.#'
+        - '#Call to an undefined method Illuminate\\Database\\(.*)Builder::.*\(.*\)#'
+    tmpDir: build/phpstan
+    checkOctaneCompatibility: true
+    checkModelProperties: true
+    checkMissingIterableValueType: false
