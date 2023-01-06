@@ -8,14 +8,14 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Tests\TestCase;
 
-class UserConversationControllerTest extends TestCase
+class ConversationControllerTest extends TestCase
 {
     use RefreshDatabase;
 
     /**
      * @test
      */
-    public function list()
+    public function inbox()
     {
         $this->authenticate();
 
@@ -25,7 +25,7 @@ class UserConversationControllerTest extends TestCase
             ->count(5)
             ->create();
 
-        $this->get(route('conversations.list'))
+        $this->get(route('chat.inbox'))
             ->assertOk()
             ->assertJson(
                 fn (AssertableJson $json) => $json->has('data', 5)

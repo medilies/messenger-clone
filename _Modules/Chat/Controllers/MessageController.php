@@ -3,7 +3,7 @@
 namespace _Modules\Chat\Controllers;
 
 use _Modules\Chat\Models\Conversation;
-use _Modules\Chat\Services\MessageService;
+use _Modules\Chat\Services\NewMessageService;
 use Illuminate\Http\Request;
 
 class MessageController
@@ -13,7 +13,7 @@ class MessageController
         return $conversation->messages->load('user');
     }
 
-    public function newConversationMessage(Request $request, Conversation $conversation, MessageService $message_service): array
+    public function newConversationMessage(Request $request, Conversation $conversation, NewMessageService $message_service): array
     {
         $conversation->load('users');
 

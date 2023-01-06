@@ -20,7 +20,7 @@ class DirectConversationControllerTest extends TestCase
 
         $user = User::factory()->create();
 
-        $this->get(route('conversations.direct.get', ['user' => $user]))
+        $this->get(route('chat.conversations.direct.get', ['user' => $user]))
             ->assertCreated();
 
         $this->assertDatabaseCount(tableNameFromModel(Conversation::class), 1)

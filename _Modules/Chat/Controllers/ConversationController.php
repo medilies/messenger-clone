@@ -7,7 +7,7 @@ use App\Models\User;
 
 class ConversationController
 {
-    public function list()
+    public function inbox()
     {
         /** @var User */
         $current_user = auth()->user();

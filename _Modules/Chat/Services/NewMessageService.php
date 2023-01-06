@@ -10,7 +10,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
-class MessageService
+class NewMessageService
 {
     protected Collection $validated_message;
 
@@ -22,11 +22,9 @@ class MessageService
     {
         $this->conversation = $conversation;
 
-        if ($data instanceof Request) {
-            $data = $data->all();
-        }
-
-        $this->validated_message = collect($this->validate($data));
+        $this->validated_message = collect($this->validate(
+            $data instanceof Request ? $data->all() : $data
+        ));
 
         // ==================
 

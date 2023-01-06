@@ -6,7 +6,7 @@ export const useConversationStore = defineStore("conversation", () => {
     const conversations = ref({});
 
     function refreshConversations() {
-        authenticatedGet("/api/conversations").then((response) => {
+        authenticatedGet("/api/chat/inbox").then((response) => {
             console.log(response.data);
 
             conversations.value = response.data.data;

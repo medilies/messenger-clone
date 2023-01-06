@@ -21,7 +21,7 @@ const authenticatedGet = (path, additionalHeaders = {}) => {
 
 const sendMessage = (message, conversationId) => {
     return authenticatedPost(
-        `/api/conversations/${conversationId}/messages`,
+        `/api/chat/conversations/${conversationId}/messages`,
         message
     );
 };

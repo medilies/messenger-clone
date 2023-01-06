@@ -24,7 +24,7 @@ async function getOldMessage(conversation_id) {
     }
 
     const response = await authenticatedGet(
-        `/api/conversations/${conversation_id}/messages`
+        `/api/chat/conversations/${conversation_id}/messages`
     );
 
     // console.log(response.data);
