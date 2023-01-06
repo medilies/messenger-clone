@@ -13,7 +13,7 @@ class NewMessageEvent implements ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public function __construct(
-        protected array $message
+        public array $message
     ) {
     }
 
