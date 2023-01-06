@@ -38,7 +38,7 @@ const authStore = useAuthStore();
 
 if (authStore.user) {
     Echo.private(`chat.${authStore.user.id}`).listen(
-        "MessageEvent",
+        ".NewMessageEvent",
         (message) => {
             // console.log(message);
 

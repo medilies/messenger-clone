@@ -198,7 +198,7 @@ return [
         /*
          * Module Service Providers...
          */
-        App\Modules\Chat\Providers\ConversationSerivceProvider::class,
+        _Modules\Chat\Providers\ChatSerivceProvider::class,
     ],
 
     /*

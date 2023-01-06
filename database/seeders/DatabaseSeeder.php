@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
+use _Modules\Chat\Seeders\ConversationSeeder;
 use App\Models\User;
-use App\Modules\Chat\Seeders\ConversationSeeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
