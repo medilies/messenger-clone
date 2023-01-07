@@ -28,16 +28,16 @@ import NavItem from "./Components/NavItem.vue";
 
 import { useChatStore } from "@/modules/chat";
 import { useAuthStore } from "@/modules/auth/store/AuthStore";
-
-/*
-    Chat
-*/
+import { useUsersStore } from "@/Stores/UsersStore";
 
 const chatStore = useChatStore();
 
 const authStore = useAuthStore();
 
 if (authStore.user) {
+    /*
+        Chat
+    */
     Echo.private(`chat.${authStore.user.id}`).listen(
         ".NewMessageEvent",
         (message) => {
@@ -50,5 +50,13 @@ if (authStore.user) {
     // Echo.private("chat").listenForWhisper("typing", (e) => {
     //     console.log("typing...");
     // });
+
+    /*
+        Users
+    */
+
+    const usersStore = useUsersStore();
+
+    usersStore.refreshUsers();
 }
 </script>
