@@ -1,0 +1,33 @@
+<template>
+    <ag-grid-vue
+        class="ag-theme-alpine h-96"
+        :columnDefs="columnDefs.value"
+        :rowData="rowData.value"
+        :defaultColDef="defaultColDef"
+        rowSelection="multiple"
+        animateRows="true"
+    >
+    </ag-grid-vue>
+</template>
+
+<script setup>
+import { useUsersStore } from "@/Stores/UsersStore";
+import "ag-grid-community/styles/ag-grid.css";
+import "ag-grid-community/styles/ag-theme-alpine.css";
+import { AgGridVue } from "ag-grid-vue3";
+import { reactive } from "vue";
+
+const usersStore = useUsersStore();
+
+const columnDefs = reactive({
+    value: [
+        { headerName: "ID", field: "id" },
+        { headerName: "Name", field: "name" },
+        { headerName: "Email", field: "email", sortable: false },
+    ],
+});
+
+const rowData = reactive({ value: usersStore.users });
+
+const defaultColDef = { sortable: true, filter: true };
+</script>
