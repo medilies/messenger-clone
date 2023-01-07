@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="h-full p-1">
         <UsersGrid />
     </div>
 </template>

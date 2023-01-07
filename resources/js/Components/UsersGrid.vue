@@ -1,6 +1,6 @@
 <template>
     <ag-grid-vue
-        class="ag-theme-alpine h-96"
+        class="ag-theme-alpine-dark h-full"
         :columnDefs="columnDefs.value"
         :rowData="usersStore.users"
         :defaultColDef="defaultColDef"
@@ -30,5 +30,5 @@ const columnDefs = reactive({
     ],
 });
 
-const defaultColDef = { sortable: true, filter: true };
+const defaultColDef = { sortable: true, filter: true, flex: 1 };
 </script>
