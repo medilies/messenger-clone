@@ -1,18 +1,11 @@
 <template>
-    <router-link
-        :to="{
-            name: 'chat.conversation',
-            params: { conversation_id: props.params.userId },
-        }"
-    >
-        <slot> Discussion </slot>
-    </router-link>
+    <button @click="goToDiscussion">Discussion</button>
 </template>
 
 <script setup>
-// ! This shouldn't be a </router-link> component
-// ! It should ask the conversation ID using the user ID
-// ! Then redirect
+import { authenticatedGet } from "@/modules/auth";
+import { useConversationStore } from "@/modules/chat";
+import { useRouter } from "vue-router";
 
 const props = defineProps({
     params: {
@@ -20,4 +13,24 @@ const props = defineProps({
         required: true,
     },
 });
+
+const conversationStore = useConversationStore();
+
+const router = useRouter();
+
+function goToDiscussion() {
+    authenticatedGet(
+        `/api/chat/conversations/direct/${props.params.userId}`
+    ).then((response) => {
+        console.log(response.data);
+
+        // TODO: push to store
+        // conversationStore
+
+        router.push({
+            name: "chat.conversation",
+            params: { conversation_id: response.data.id },
+        });
+    });
+}
 </script>
