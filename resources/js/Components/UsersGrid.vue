@@ -17,6 +17,8 @@ import { useUsersStore } from "@/Stores/UsersStore";
 
 import { AgGridVue } from "ag-grid-vue3";
 
+import GoToDiscussion from "@/Components/GoToDiscussion.vue";
+
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 
@@ -27,6 +29,17 @@ const columnDefs = reactive({
         { headerName: "ID", field: "id" },
         { headerName: "Name", field: "name" },
         { headerName: "Email", field: "email", sortable: false },
+        {
+            headerName: "",
+            cellRendererSelector: (p) => {
+                return {
+                    component: GoToDiscussion,
+                    params: { userId: p.data.id },
+                };
+            },
+            sortable: false,
+            filter: false,
+        },
     ],
 });
 
