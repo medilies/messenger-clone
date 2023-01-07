@@ -1,9 +1,14 @@
 <template>
-    <button @click="goToDiscussion">Discussion</button>
+    <button
+        v-if="props.params.userId !== authStore.user.id"
+        @click="goToDiscussion"
+    >
+        Discussion
+    </button>
 </template>
 
 <script setup>
-import { authenticatedGet } from "@/modules/auth";
+import { authenticatedGet, useAuthStore } from "@/modules/auth";
 import { useConversationStore } from "@/modules/chat";
 import { useRouter } from "vue-router";
 
@@ -13,6 +18,10 @@ const props = defineProps({
         required: true,
     },
 });
+
+const authStore = useAuthStore();
+
+//
 
 const conversationStore = useConversationStore();
 
