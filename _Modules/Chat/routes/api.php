@@ -14,8 +14,10 @@ Route::middleware('auth:sanctum')->prefix('/chat')
             ->name('chat.conversations.direct.get');
 
         Route::get('/conversations/{conversation}/messages', [MessageController::class, 'getConversationMessages'])
+            ->can('view', 'conversation')
             ->name('chat.conversations.messages.get');
 
         Route::post('/conversations/{conversation}/messages', [MessageController::class, 'newConversationMessage'])
+            ->can('view', 'conversation')
             ->name('chat.conversations.messages.new');
     });
