@@ -33,9 +33,9 @@ class ConversationPolicy
             if ($participant->id === $user->id) {
                 return true;
             }
-
-            return false;
         }
+
+        return false;
     }
 
     /**
