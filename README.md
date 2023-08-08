@@ -4,30 +4,30 @@
 
 ### System features
 
-1. Listing contacts.
-2. Searching for a contact.
-3. Direct messages.
-4. Group messages.
-5. Replying to messages.
-6. Replying to messages in threads.
-7. Sending media.
-8. Sending vocal messages.
-9. Indicating the connection status of a contact.
-10. Indicating when a contact was last seen if not connected.
-11. Signaling if user is typing.
-12. Reporting the message state sending - sent - delivered - seen.
-13. Searching for a message in a conversation.
-14. Editing a message, and wether to keep the history of changes or not.
-15. Deleting a message.
+- [x] Listing contacts.
+- [x] Searching for a contact.
+- [x] Direct messages.
+- [ ] Group messages.
+- [ ] Replying to messages.
+- [ ] Replying to messages in threads.
+- [ ] Sending media.
+- [ ]  Sending vocal messages.
+- [ ] Indicating the connection status of a contact.
+- [ ] Indicating when a contact was last seen if not connected.
+- [ ] Signaling if user is typing.
+- [ ] Reporting the message state sending - sent - delivered - seen.
+- [ ] Searching for a message in a conversation.
+- [ ] Editing a message, and wether to keep the history of changes or not.
+- [ ] Deleting a message.
 
 ### Front end only features
 
-1. Auto-scrolling down when entering a conversation.
-2. Showing a notification when a user isn't in the conversation.
-3. Showing a count of not seen messages.
-4. Getting stored messages from the backend.
-5. Caching messages.
-6. Show a separator when there is a considerable time interval between messages.
+- [x] Auto-scrolling down when entering a conversation.
+- [ ] Showing a notification when a user isn't in the conversation.
+- [ ] Showing a count of not seen messages.
+- [x] Getting stored messages from the backend.
+- [ ] Caching messages.
+- [x] Show a separator when there is a considerable time interval between messages.
 
 ## Architecture
 
