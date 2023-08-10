@@ -1,5 +1,7 @@
 # Messenger clone
 
+![image](https://github.com/medilies/messenger-clone/assets/35309918/0e492231-064d-4c9d-80bf-ee20958701f5)
+
 ## Features
 
 ### System features
